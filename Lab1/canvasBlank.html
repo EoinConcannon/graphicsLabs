@@ -18,22 +18,30 @@
 
   <body>
 
-    <canvas id="canvasOne" width="" height="500"></canvas>
+    <canvas id="canvasOne" width="1000" height="500">Eoin Concannon</canvas>
+
     
 
     <script type="text/javascript">
 		// Gets a handle to the element with id canvasOne.
-
-    
+    var c = document.getElementById("canvasOne");
 		
 		// Set the canvas up for drawing in 2D.
+    var ctx = c.getContext("2d");
 		
 		// Set the fill colour to bright red.
-		
+    ctx.beginPath();
+    ctx.rect(20, 20, 150, 100);
+    ctx.fillStyle = "red";
+    ctx.fill();
+
 		// Create a filled rectangle 
-		
+		ctx.beginPath();
+    ctx.rect(20, 20, 150, 100);
+    ctx.stroke();
+
+    ctx.strokeText("Eoin", 30, 90);
 	  
-		
     </script>
 
   </body>
