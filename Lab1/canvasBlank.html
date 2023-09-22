@@ -18,9 +18,7 @@
 
   <body>
 
-    <canvas id="canvasOne" width="1000" height="500">Eoin Concannon</canvas>
-
-    
+    <canvas id="canvasOne" width="1000" height="500"></canvas>
 
     <script type="text/javascript">
 		// Gets a handle to the element with id canvasOne.
@@ -56,6 +54,7 @@
     ctx.fill();
     ctx.stroke();
 
+    //different colour rectangle
     ctx.beginPath();
     ctx.rect(100, 300, 200, 150);
     ctx.fillStyle = "blue";
@@ -65,21 +64,18 @@
     //overlapping shapes
     ctx.beginPath();
     ctx.rect(600, 150, 150, 100);
-    // Set the fill colour to bright red.
     ctx.fillStyle = "rgba(255, 0, 0, 0.6)";
     ctx.fill();
     ctx.stroke();
 
     ctx.beginPath();
     ctx.rect(625, 175, 150, 100);
-    // Set the fill colour to bright red.
     ctx.fillStyle = "rgba(0, 255, 0, 0.4)";
     ctx.fill();
     ctx.stroke();
 
     ctx.beginPath();
     ctx.rect(650, 200, 150, 100);
-    // Set the fill colour to bright red.
     ctx.fillStyle = "rgba(0, 0, 255, 0.2)";
     ctx.fill();
     ctx.stroke();
