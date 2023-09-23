@@ -36,6 +36,8 @@
 		// Create a filled rectangle 
 		ctx.beginPath();
     ctx.rect(20, 20, 150, 100);
+    ctx.lineWidth = 7.5;//added this so border colour change is more noticeable
+    ctx.strokeStyle = "purple";
     ctx.stroke();
 
     ctx.font = "30px Arial";
@@ -80,16 +82,21 @@
     ctx.fill();
     ctx.stroke();
 
+    //two circles
     ctx.beginPath();
     ctx.arc(450, 350, 50, 0, 2 * Math.PI);
     ctx.fillStyle = "red";
     ctx.fill();
+    ctx.lineWidth = 5;//added this so border colour change is more noticeable
+    ctx.strokeStyle = "green";
     ctx.stroke();
 
     ctx.beginPath();
     ctx.arc(575, 350, 50, 0, 2 * Math.PI);
-    ctx.fillStyle = "blue";
+    ctx.fillStyle = "green";
     ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "red";
     ctx.stroke();
 
     </script>
