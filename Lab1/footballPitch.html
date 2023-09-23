@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+
+    <style type="text/css">
+	
+    canvas {
+      border: solid black;
+    }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <canvas id="canvasOne" width="1000" height="500"></canvas>
+
+    <script type="text/javascript">
+    
+    var c = document.getElementById("canvasOne");
+    var ctx = c.getContext("2d");
+      
+		
+		ctx.beginPath();
+    ctx.rect(20, 20, 150, 100);
+    ctx.stroke();
+    
+    </script>
+
+  </body>
+
+</html>
