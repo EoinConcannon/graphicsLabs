@@ -25,13 +25,24 @@
     var c = document.getElementById("canvasOne");
     var ctx = c.getContext("2d");
       
-		
+		//left pitch
 		ctx.beginPath();
     ctx.rect(100, 100, 180, 225);
     ctx.stroke();
     
+    //goal area
     ctx.beginPath();
     ctx.rect(100, 146.5, 54, 132);
+    ctx.stroke();
+
+    //goal
+    ctx.beginPath();
+    ctx.rect(100, 182.5, 18, 60);
+    ctx.stroke();
+    
+    //semi-circle infront of goal
+    ctx.beginPath();
+    ctx.arc(136, 212.5, 30, 1.7 * Math.PI, 0.3 * Math.PI);
     ctx.stroke();
     
     </script>
