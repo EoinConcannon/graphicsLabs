@@ -63,20 +63,32 @@
 
     //overlapping shapes
     ctx.beginPath();
-    ctx.rect(600, 150, 150, 100);
+    ctx.rect(600, 100, 150, 100);
     ctx.fillStyle = "rgba(255, 0, 0, 0.6)";
     ctx.fill();
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.rect(625, 175, 150, 100);
+    ctx.rect(625, 125, 150, 100);
     ctx.fillStyle = "rgba(0, 255, 0, 0.4)";
     ctx.fill();
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.rect(650, 200, 150, 100);
+    ctx.rect(650, 150, 150, 100);
     ctx.fillStyle = "rgba(0, 0, 255, 0.2)";
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(450, 350, 50, 0, 2 * Math.PI);
+    ctx.fillStyle = "red";
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(575, 350, 50, 0, 2 * Math.PI);
+    ctx.fillStyle = "blue";
     ctx.fill();
     ctx.stroke();
 
