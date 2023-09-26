@@ -23,7 +23,7 @@
 
     <h1>Eoin Concannon</h1>
 
-    <canvas id="canvas-for-ball" width="1000" height="500"></canvas>
+    <canvas id="canvas-for-ball" width="400" height="200"></canvas>
 
     <script type="text/javascript">
       // Gets a handle to the element with id canvasOne.
@@ -33,19 +33,24 @@
       
       // The vertical location of the ball.
       var y = 10;
+      var ySpeed = 1;
       // A function to repeat every time the animation loops.
       function repeatme() {
         // Draw the ball (stroked, not filled).
-        ctx.clearRect(0, 0, 1000, 500);
+        ctx.clearRect(0, 0, 400, 200);
         ctx.beginPath();
         ctx.arc(50, y, 3, 0, 2 * Math.PI);
         ctx.stroke();
         
         // Update the y location.
-        y += 1;
+        y += ySpeed;
         
         window.requestAnimationFrame(repeatme);
 
+        //when ball reaches bottom of canvas
+        if(y => 200){
+          ySpeed = 0;
+        }
       }
       
       // Get the animation going.
