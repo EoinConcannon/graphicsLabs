@@ -36,6 +36,7 @@
       // A function to repeat every time the animation loops.
       function repeatme() {
         // Draw the ball (stroked, not filled).
+        ctx.clearRect(0, 0, 1000, 500);
         ctx.beginPath();
         ctx.arc(50, y, 3, 0, 2 * Math.PI);
         ctx.stroke();
@@ -44,6 +45,7 @@
         y += 1;
         
         window.requestAnimationFrame(repeatme);
+
       }
       
       // Get the animation going.
