@@ -30,10 +30,23 @@
       var canvas = document.getElementById("canvas-for-ball");
       // Get a 2D context for the canvas.
       var ctx = canvas.getContext("2d");
+
+      class Ball{
+        constructor(x, y){
+          this.x = x;
+          this.y = y;
+        }
+        draw(){
+
+        }
+        move(){
+
+        }
+      }
       
       // The vertical location of the ball.
       var y = 10;
-      var ySpeed = 1;
+      var ySpeed = 2;
       // A function to repeat every time the animation loops.
       function repeatme() {
         // Draw the ball (stroked, not filled).
@@ -48,8 +61,11 @@
         window.requestAnimationFrame(repeatme);
 
         //when ball reaches bottom of canvas
-        if(y => 200){
-          ySpeed = 0;
+        if(y >= 200){
+          ySpeed = -1 * ySpeed;
+        }
+        else if(y <= 0){
+          ySpeed = -1 * ySpeed;
         }
       }
       
