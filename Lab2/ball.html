@@ -33,19 +33,21 @@
 
       //ball object
       class Ball{
-        constructor(x, y, ySpeed){
+        constructor(x, y, xSpeed, ySpeed){
           this.x = x;
           this.y = y;
           this.ySpeed = ySpeed;
+          this.xSpeed = xSpeed;
         }
         draw(){
           ctx.beginPath();
-          ctx.arc(this.x, this.y, 3, 0, 2 * Math.PI);
+          ctx.arc(this.x, this.y, 4, 0, 2 * Math.PI);
           ctx.stroke();
         }
         move(){
           //Update the y location.
           this.y += this.ySpeed;
+          this.x += this.xSpeed;
 
           if(this.y >= 200){
             //when ball reaches bottom of canvas
@@ -55,10 +57,18 @@
             //when ball reaches top of canvas
             this.ySpeed = -1 * this.ySpeed;
           }
+          if(this.x >= 400){
+            //when ball reaches right of canvas
+            this.xSpeed = -1 * this.xSpeed;
+          }
+          else if(this.x <= 0){
+            //when ball reaches left of canvas
+            this.xSpeed = -1 * this.xSpeed;
+          }
         }
       }
 
-      b1 = new Ball(50, 50, 2);
+      b1 = new Ball(50, 50, 3, 2);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
