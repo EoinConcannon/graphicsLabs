@@ -38,10 +38,21 @@
           this.y = y;
         }
         draw(){
-
+          ctx.beginPath();
+          ctx.arc(xPos, yPos, 3, 0, 2 * Math.PI);
+          ctx.stroke();
         }
         move(){
+          // Update the y location.
+          yPos += ySpeed;
 
+          //when ball reaches bottom of canvas
+          if(yPos >= 200){
+            ySpeed = -1 * ySpeed;
+          }
+          else if(yPos <= 0){
+            ySpeed = -1 * ySpeed;
+          }
         }
       }
 
@@ -50,28 +61,15 @@
       var yPos = 50;
       var ySpeed = 2;
 
-      b1 = new Ball();
+      b1 = new Ball(50, 50);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
         // Draw the ball (stroked, not filled).
         ctx.clearRect(0, 0, 400, 200);
-        ctx.beginPath();
-        ctx.arc(xPos, yPos, 3, 0, 2 * Math.PI);
-        ctx.stroke();
+        b1.draw();
         b1.move();
-        
-        // Update the y location.
-        yPos += ySpeed;
 
-        //when ball reaches bottom of canvas
-        if(yPos >= 200){
-          ySpeed = -1 * ySpeed;
-        }
-        else if(yPos <= 0){
-          ySpeed = -1 * ySpeed;
-        }
-        
         window.requestAnimationFrame(repeatme);
       }
       
