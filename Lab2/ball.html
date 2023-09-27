@@ -33,19 +33,20 @@
 
       //ball object
       class Ball{
-        constructor(x, y, xSpeed, ySpeed){
+        constructor(x, y, xSpeed, ySpeed, radian){
           this.x = x;
           this.y = y;
           this.ySpeed = ySpeed;
           this.xSpeed = xSpeed;
+          this.radian = radian;
         }
         draw(){
           ctx.beginPath();
-          ctx.arc(this.x, this.y, 4, 0, 2 * Math.PI);
+          ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);
           ctx.stroke();
         }
         move(){
-          //Update the y location.
+          //Update the y and x location.
           this.y += this.ySpeed;
           this.x += this.xSpeed;
 
@@ -66,9 +67,12 @@
             this.xSpeed = -1 * this.xSpeed;
           }
         }
+        resize(radian){
+          this.radian = radian;
+        }
       }
 
-      b1 = new Ball(50, 50, 3, 2);
+      b1 = new Ball(50, 50, 3, 2, 4);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
@@ -76,6 +80,7 @@
         ctx.clearRect(0, 0, 400, 200);
         b1.draw();
         b1.move();
+        //b1.resize();
 
         window.requestAnimationFrame(repeatme);
       }
