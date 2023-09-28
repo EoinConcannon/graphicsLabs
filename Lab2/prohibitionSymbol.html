@@ -47,6 +47,14 @@
           ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);
           ctx.strokeStyle = this.colour;
           ctx.lineWidth = this.lineSize;
+          ctx.rect((this.x - this.radian), (this.y - (this.y / this.radian) ), (this.radian * 2), (this.lineSize / 2));
+          //x is set to left of circle, 
+          //y is to the top, 
+          //radian multiplication extends the "line", 
+          //linesize division is to match the size of the line with the border of the circle
+
+          //test lineTo() for better result
+          ctx.rect((this.x - (this.x / this.radian)), (this.y - this.radian ), (this.lineSize / 2), (this.radian * 2));
           ctx.stroke();
         }
         move(){
@@ -76,9 +84,7 @@
         }
       }
 
-      b1 = new Ball(500, 500, 7, 7, 10, "black", 2);
-      //prohibition symbol ball
-      b2 = new Ball(200, 200, 3, 4, 100, "red", 25);
+      b1 = new Ball(200, 200, 3, 4, 100, "red", 25);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
@@ -86,8 +92,6 @@
         b1.draw();
         b1.move();
         //b1.resize();
-        b2.draw();
-        b2.move();
 
         window.requestAnimationFrame(repeatme);
       }
