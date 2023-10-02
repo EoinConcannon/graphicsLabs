@@ -48,9 +48,10 @@
           ctx.strokeStyle = this.colour;
           ctx.lineWidth = this.lineSize;
 
-          ctx.lineTo(this.x - this.radian, this.y);//left to right
+          ctx.moveTo(this.x, this.y + this.radian);
+          ctx.lineTo(this.x - Math.cos(0) * this.radian, this.y + Math.sin(0) * this.radian);//left to right
           ctx.moveTo(this.x, this.y - this.radian);//moves line starting point to top of circle
-          ctx.lineTo(this.x, this.y + this.radian);//top to bottom
+          ctx.lineTo(this.x - Math.cos(0) * this.radian, this.y + Math.sin(0) * this.radian);//top to bottom
           ctx.stroke();
 
           //sin, cos
