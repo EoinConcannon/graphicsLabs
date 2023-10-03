@@ -119,14 +119,16 @@
 		$(document.body).on('keydown', function(e) {
 			console.log(e.which);
 			switch (e.which) {
-			// key code for left arrow
-			case 37:
-				console.log('left arrow key pressed!');
+			// key code for up arrow
+			case 38:
+				//console.log('top arrow key pressed!');
+                p1.y = p1.y - 30;
 				break;
 
-			// key code for right arrow
-			case 39:
-				console.log('right arrow key pressed!');
+			// key code for down arrow
+			case 40:
+				//console.log('bottom arrow key pressed!');
+                p1.y = p1.y + 30;
 				break;
 			}
 		});
