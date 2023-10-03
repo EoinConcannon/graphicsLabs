@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+
+    <style type="text/css">
+      body {
+          background-color: white;
+      }
+
+      canvas {
+        border: solid black;
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+    <h1>Eoin Concannon</h1>
+
+    <canvas id="canvas-for-ball" width="400" height="200"></canvas>
+
+    <script type="text/javascript">
+      // Gets a handle to the element with id canvasOne.
+      var canvas = document.getElementById("canvas-for-ball");
+      // Get a 2D context for the canvas.
+      var ctx = canvas.getContext("2d");
+
+      //ball object
+      class Ball{
+        constructor(x, y, xSpeed, ySpeed, radian){
+          this.x = x;
+          this.y = y;
+          this.ySpeed = ySpeed;
+          this.xSpeed = xSpeed;
+          this.radian = radian;
+        }
+        draw(){
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);
+          ctx.stroke();
+        }
+        move(){
+          //Update the y and x location.
+          this.y += this.ySpeed;
+          this.x += this.xSpeed;
+
+          if(this.y >= 200){
+            //when ball reaches bottom of canvas
+            this.ySpeed = -1 * this.ySpeed;
+          }
+          else if(this.y <= 0){
+            //when ball reaches top of canvas
+            this.ySpeed = -1 * this.ySpeed;
+          }
+          if(this.x >= 400){
+            //when ball reaches right of canvas
+            this.xSpeed = -1 * this.xSpeed;
+          }
+          else if(this.x <= 0){
+            //when ball reaches left of canvas
+            this.xSpeed = -1 * this.xSpeed;
+          }
+        }
+        resize(radian){
+          this.radian = radian;
+        }
+      }
+
+      //paddle object
+      class Paddle{
+        constructor(y){
+          this.y = y;
+        }
+        draw(){
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);
+          ctx.stroke();
+        }
+        move(){
+          //Update the y and x location.
+          this.y += this.ySpeed;
+          this.x += this.xSpeed;
+
+          if(this.y >= 200){
+            //when ball reaches bottom of canvas
+            this.ySpeed = -1 * this.ySpeed;
+          }
+          else if(this.y <= 0){
+            //when ball reaches top of canvas
+            this.ySpeed = -1 * this.ySpeed;
+          }
+          if(this.x >= 400){
+            //when ball reaches right of canvas
+            this.xSpeed = -1 * this.xSpeed;
+          }
+          else if(this.x <= 0){
+            //when ball reaches left of canvas
+            this.xSpeed = -1 * this.xSpeed;
+          }
+        }
+      }
+
+      b1 = new Ball(50, 50, 3, 2, 4);
+      p1 = new Paddle(20);
+
+      // A function to repeat every time the animation loops.
+      function repeatme() {
+        ctx.clearRect(0, 0, 400, 200);
+        b1.draw();
+        b1.move();
+        //b1.resize();
+        p1.draw();
+        p1.move();
+
+        window.requestAnimationFrame(repeatme);
+      }
+      
+      // Get the animation going.
+      repeatme();
+    </script>
+
+  </body>
+
+</html>
