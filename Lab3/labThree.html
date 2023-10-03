@@ -74,20 +74,22 @@
 
         //paddle object
         class Paddle {
-            constructor(y, width) {
+            constructor(x, y, width) {
+                this.x = x;
                 this.y = y;
                 this.width = width;
             }
             draw() {
                 ctx.beginPath();
-                ctx.rect(50, this.y, 100, this.width);
+                ctx.rect(this.x, this.y, 100, this.width);
                 ctx.stroke();
             }
             move() { }
         }
 
         b1 = new Ball(50, 50, 5, 5, 20);
-        p1 = new Paddle(20, 200);
+        p1 = new Paddle(50, 20, 200);
+        p2 = new Paddle(1250, 20, 200);
 
         // A function to repeat every time the animation loops.
         function repeatme() {
@@ -97,6 +99,8 @@
             //b1.resize();
             p1.draw();
             p1.move();
+            p2.draw();
+            p2.move();
 
             window.requestAnimationFrame(repeatme);
         }
@@ -122,13 +126,13 @@
 			// key code for up arrow
 			case 38:
 				//console.log('top arrow key pressed!');
-                p1.y = p1.y - 30;
+                p2.y = p2.y - 30;
 				break;
 
 			// key code for down arrow
 			case 40:
 				//console.log('bottom arrow key pressed!');
-                p1.y = p1.y + 30;
+                p2.y = p2.y + 30;
 				break;
 			}
 		});
