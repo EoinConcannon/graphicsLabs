@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <html>
 
 <head>
@@ -107,6 +108,28 @@
         canvas.addEventListener("mousemove", function(event) {
             p1.y = (event.clientY - canvas.offsetTop) - (p1.width / 2);
         });
+
+        // Add a Javascript event listener to the keypress event.
+		window.addEventListener("keypress", function(event) { 
+			// Just log the event to the console.
+			console.log(event);
+		});
+
+		//keypresses with jQuery
+		$(document.body).on('keydown', function(e) {
+			console.log(e.which);
+			switch (e.which) {
+			// key code for left arrow
+			case 37:
+				console.log('left arrow key pressed!');
+				break;
+
+			// key code for right arrow
+			case 39:
+				console.log('right arrow key pressed!');
+				break;
+			}
+		});
 
     </script>
 
