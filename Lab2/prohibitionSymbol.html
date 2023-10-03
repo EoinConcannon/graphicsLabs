@@ -23,7 +23,7 @@
 
     <h1>Eoin Concannon</h1>
 
-    <canvas id="canvas-for-ball" width="400" height="200"></canvas>
+    <canvas id="canvas-for-ball" width="1000" height="750"></canvas>
 
     <script type="text/javascript">
       // Gets a handle to the element with id canvasOne.
@@ -33,36 +33,51 @@
 
       //ball object
       class Ball{
-        constructor(x, y, xSpeed, ySpeed, radian){
+        constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize){
           this.x = x;
           this.y = y;
           this.ySpeed = ySpeed;
           this.xSpeed = xSpeed;
           this.radian = radian;
+          this.colour = colour;
+          this.lineSize = lineSize;
         }
         draw(){
           ctx.beginPath();
-          ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);
+          ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);//circle created
+          ctx.strokeStyle = this.colour;
+          ctx.lineWidth = this.lineSize;
+
+          ctx.moveTo(this.x, this.y + this.radian);
+          ctx.lineTo(this.x - Math.cos(0) * this.radian, this.y + Math.sin(0) * this.radian);//left to right
+          ctx.moveTo(this.x, this.y - this.radian);//moves line starting point to top of circle
+          ctx.lineTo(this.x - Math.cos(0) * this.radian, this.y + Math.sin(0) * this.radian);//top to bottom
           ctx.stroke();
+
+          //sin, cos
+
+          //ctx.lineTo(this.x - this.radian, this.y);//left to right
+          //ctx.moveTo(this.x, this.y - this.radian);//moves line starting point to top of circle
+          //ctx.lineTo(this.x, this.y + this.radian);//top to bottom
         }
         move(){
           //Update the y and x location.
           this.y += this.ySpeed;
           this.x += this.xSpeed;
 
-          if(this.y >= 200){
-            //when ball reaches bottom of canvas
+          if(this.y >= (750-this.radian)){
+            //when ball reaches bottom of canvas, uses the radian so the ball doesn't have to bounce from its centre point
             this.ySpeed = -1 * this.ySpeed;
           }
-          else if(this.y <= 0){
+          else if(this.y <= this.radian){
             //when ball reaches top of canvas
             this.ySpeed = -1 * this.ySpeed;
           }
-          if(this.x >= 400){
+          if(this.x >= (1000-this.radian)){
             //when ball reaches right of canvas
             this.xSpeed = -1 * this.xSpeed;
           }
-          else if(this.x <= 0){
+          else if(this.x <= this.radian){
             //when ball reaches left of canvas
             this.xSpeed = -1 * this.xSpeed;
           }
@@ -72,11 +87,11 @@
         }
       }
 
-      b1 = new Ball(50, 50, 3, 2, 4);
+      b1 = new Ball(200, 200, 3, 4, 100, "crimson", 25);
 
       // A function to repeat every time the animation loops.
       function repeatme() {
-        ctx.clearRect(0, 0, 400, 200);
+        ctx.clearRect(0, 0, 1000, 750);
         b1.draw();
         b1.move();
         //b1.resize();
