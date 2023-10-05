@@ -48,10 +48,14 @@
           ctx.strokeStyle = this.colour;
           ctx.lineWidth = this.lineSize;
 
-          ctx.moveTo(this.x, this.y + this.radian);
-          ctx.lineTo(this.x - Math.cos(0) * this.radian, this.y + Math.sin(0) * this.radian);//left to right
-          ctx.moveTo(this.x, this.y - this.radian);//moves line starting point to top of circle
-          ctx.lineTo(this.x - Math.cos(0) * this.radian, this.y + Math.sin(0) * this.radian);//top to bottom
+          ctx.moveTo(this.x - (this.radian/1.5), this.y - (this.radian/1.5));//divide by 1.5 to not move starting point outside the circle
+          var xL = (this.radian * Math.cos(Math.PI/4) + this.x);
+          var yL = (this.radian * Math.sin(Math.PI/4) + this.y);
+          ctx.lineTo(xL, yL);
+          ctx.moveTo(this.x + (this.radian/1.5), this.y - (this.radian/1.5));//only change x
+          xL = (this.radian * Math.cos(Math.PI/4 - 5) + this.x);
+          yL = (this.radian * Math.sin(Math.PI/4 - 5) + this.y);
+          ctx.lineTo(xL, yL);
           ctx.stroke();
 
           //sin, cos
