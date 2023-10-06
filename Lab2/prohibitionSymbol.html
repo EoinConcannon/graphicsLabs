@@ -53,8 +53,8 @@
           var yL = (this.radian * Math.sin(Math.PI/4) + this.y);
           ctx.lineTo(xL, yL);
           ctx.moveTo(this.x + (this.radian/1.5), this.y - (this.radian/1.5));//only change x
-          xL = (this.radian * Math.cos(Math.PI/4 - 5) + this.x);
-          yL = (this.radian * Math.sin(Math.PI/4 - 5) + this.y);
+          xL = (this.radian * Math.cos(Math.PI/1.35) + this.x);//??? division number is a guess
+          yL = (this.radian * Math.sin(Math.PI/1.35) + this.y);
           ctx.lineTo(xL, yL);
           ctx.stroke();
 
