@@ -33,7 +33,7 @@
 
       //ball object
       class Ball{
-        constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize, angle, xL, yL){
+        constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize, angle, xL, yL, direction){
           this.x = x;
           this.y = y;
           this.ySpeed = ySpeed;
@@ -44,6 +44,7 @@
           this.angle = angle;
           this.xL = xL;
           this.yL = yL;
+          this.direction = direction;
         }
         draw(){
           ctx.beginPath();
@@ -52,12 +53,12 @@
           ctx.lineWidth = this.lineSize;
 
           ctx.moveTo(this.angle + this.x - (this.radian/1.5), this.y - (this.radian/1.5));//divide by 1.5 to not move starting point outside the circle
-          this.xL = (this.radian * Math.cos(Math.PI/4) + this.x);
-          this.yL = (this.radian * Math.sin(Math.PI/4) + this.y);
+          this.xL = (this.radian * Math.cos(Math.PI/4) + this.x * this.direction);
+          this.yL = (this.radian * Math.sin(Math.PI/4) + this.y * this.direction);
           ctx.lineTo(this.xL, this.yL - this.angle);
           ctx.moveTo(this.x + (this.radian/1.5), this.y - (this.radian/1.5));//only change x
-          this.xL = (this.radian * Math.cos(Math.PI/1.35) + this.x);//??? division number is a guess
-          this.yL = (this.radian * Math.sin(Math.PI/1.35) + this.y);
+          this.xL = (this.radian * Math.cos(Math.PI/1.35) + this.x * this.direction);//??? division number is a guess
+          this.yL = (this.radian * Math.sin(Math.PI/1.35) + this.y * this.direction);
           ctx.lineTo(this.xL, this.yL);
           ctx.stroke();
 
@@ -95,14 +96,12 @@
           this.radian = radian;
         }
         rotate(direction){
-          this.direction = direction;
-
-          this.angle =  this.angle + direction;
+          //this.angle =  this.angle + direction;
 
           if(this.y >= (750-this.radian)){
-            //when ball reaches bottom of canvas, uses the radian so the ball doesn't have to bounce from its centre point
+            //when ball reaches top of canvas
             this.direction = -1 * this.direction;
-            console.log("hit");
+            //console.log("hit");
           }
           else if(this.y <= this.radian){
             //when ball reaches top of canvas
@@ -119,7 +118,7 @@
         }
       }
 
-      b1 = new Ball(200, 200, 3, 4, 100, "crimson", 25, 4, 4);//xL and yL not set here
+      b1 = new Ball(200, 200, 3, 4, 100, "crimson", 25, 1, 4, 4, 1);//last 4 are:angle, xL, yL, direction
 
       // A function to repeat every time the animation loops.
       function repeatme() {
@@ -127,7 +126,7 @@
         b1.draw();
         b1.move();
         //b1.resize();
-        b1.rotate(1);
+        b1.rotate();
 
         window.requestAnimationFrame(repeatme);
       }
