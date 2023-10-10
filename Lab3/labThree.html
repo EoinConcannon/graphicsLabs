@@ -33,81 +33,81 @@
         var ctx = canvas.getContext("2d");
 
         //ball object
-      class Ball{
-        
-        constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize, xL, yL, direction, spin){
-          this.x = x;
-          this.y = y;
-          this.ySpeed = ySpeed;
-          this.xSpeed = xSpeed;
-          this.radian = radian;
-          this.colour = colour;
-          this.lineSize = lineSize;
-          this.xL = xL;
-          this.yL = yL;
-          this.direction = direction;
-          this.spin = spin;
-        }
-        draw(){
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);//circle created
-          ctx.strokeStyle = this.colour;
-          ctx.lineWidth = this.lineSize;
+        class Ball {
 
-          ctx.moveTo(this.x, this.y);
-          this.xL = (this.radian * Math.cos(Math.PI/4 + this.direction) + this.x);
-          this.yL = (this.radian * Math.sin(Math.PI/4 + this.direction) + this.y);
-          ctx.lineTo(this.xL, this.yL);
-          ctx.moveTo(this.x, this.y);
-          this.xL = (this.radian * Math.cos((5*Math.PI)/4 + this.direction) + this.x);
-          this.yL = (this.radian * Math.sin((5*Math.PI)/4 + this.direction) + this.y);
-          ctx.lineTo(this.xL, this.yL);
-          ctx.moveTo(this.x, this.y);
-          this.xL = (this.radian * Math.cos((7*Math.PI)/4 + this.direction) + this.x);
-          this.yL = (this.radian * Math.sin((7*Math.PI)/4 + this.direction) + this.y);
-          ctx.lineTo(this.xL, this.yL);
-          ctx.moveTo(this.x, this.y);
-          this.xL = (this.radian * Math.cos((3*Math.PI)/4 + this.direction) + this.x);
-          this.yL = (this.radian * Math.sin((3*Math.PI)/4 + this.direction) + this.y);
-          ctx.lineTo(this.xL, this.yL);
-          ctx.stroke();
+            constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize, xL, yL, direction, spin) {
+                this.x = x;
+                this.y = y;
+                this.ySpeed = ySpeed;
+                this.xSpeed = xSpeed;
+                this.radian = radian;
+                this.colour = colour;
+                this.lineSize = lineSize;
+                this.xL = xL;
+                this.yL = yL;
+                this.direction = direction;
+                this.spin = spin;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);//circle created
+                ctx.strokeStyle = this.colour;
+                ctx.lineWidth = this.lineSize;
 
-        }
-        move(){
-          //Update the y and x location.
-          this.y += this.ySpeed;
-          this.x += this.xSpeed;
+                ctx.moveTo(this.x, this.y);
+                this.xL = (this.radian * Math.cos(Math.PI / 4 + this.direction) + this.x);
+                this.yL = (this.radian * Math.sin(Math.PI / 4 + this.direction) + this.y);
+                ctx.lineTo(this.xL, this.yL);
+                ctx.moveTo(this.x, this.y);
+                this.xL = (this.radian * Math.cos((5 * Math.PI) / 4 + this.direction) + this.x);
+                this.yL = (this.radian * Math.sin((5 * Math.PI) / 4 + this.direction) + this.y);
+                ctx.lineTo(this.xL, this.yL);
+                ctx.moveTo(this.x, this.y);
+                this.xL = (this.radian * Math.cos((7 * Math.PI) / 4 + this.direction) + this.x);
+                this.yL = (this.radian * Math.sin((7 * Math.PI) / 4 + this.direction) + this.y);
+                ctx.lineTo(this.xL, this.yL);
+                ctx.moveTo(this.x, this.y);
+                this.xL = (this.radian * Math.cos((3 * Math.PI) / 4 + this.direction) + this.x);
+                this.yL = (this.radian * Math.sin((3 * Math.PI) / 4 + this.direction) + this.y);
+                ctx.lineTo(this.xL, this.yL);
+                ctx.stroke();
 
-          if(this.y >= (700-this.radian)){
-            //when ball reaches bottom of canvas, uses the radian so the ball doesn't have to bounce from its centre point
-            //ball goes in opposite direction to avoid going out of bounds
-            //rotation is reversed
-            this.ySpeed = -1 * this.ySpeed;
-            this.spin = -1 * this.spin;
-          }
-          else if(this.y <= this.radian){
-            //when ball reaches top of canvas
-            this.ySpeed = -1 * this.ySpeed;
-            this.spin = -1 * this.spin;
-          }
-          if(this.x >= (1400-this.radian)){
-            //when ball reaches right of canvas
-            this.xSpeed = -1 * this.xSpeed;
-            this.spin = -1 * this.spin;
-          }
-          else if(this.x <= this.radian){
-            //when ball reaches left of canvas
-            this.xSpeed = -1 * this.xSpeed;
-            this.spin = -1 * this.spin;
-          }
+            }
+            move() {
+                //Update the y and x location.
+                this.y += this.ySpeed;
+                this.x += this.xSpeed;
+
+                if (this.y >= (700 - this.radian)) {
+                    //when ball reaches bottom of canvas, uses the radian so the ball doesn't have to bounce from its centre point
+                    //ball goes in opposite direction to avoid going out of bounds
+                    //rotation is reversed
+                    this.ySpeed = -1 * this.ySpeed;
+                    this.spin = -1 * this.spin;
+                }
+                else if (this.y <= this.radian) {
+                    //when ball reaches top of canvas
+                    this.ySpeed = -1 * this.ySpeed;
+                    this.spin = -1 * this.spin;
+                }
+                if (this.x >= (1400 - this.radian)) {
+                    //when ball reaches right of canvas
+                    this.xSpeed = -1 * this.xSpeed;
+                    this.spin = -1 * this.spin;
+                }
+                else if (this.x <= this.radian) {
+                    //when ball reaches left of canvas
+                    this.xSpeed = -1 * this.xSpeed;
+                    this.spin = -1 * this.spin;
+                }
+            }
+            resize(radian) {
+                this.radian = radian;
+            }
+            rotate() {
+                this.direction = this.direction + this.spin;
+            }
         }
-        resize(radian){
-          this.radian = radian;
-        }
-        rotate(){
-          this.direction = this.direction + this.spin;
-        }
-      }
 
         //paddle object
         class Paddle {
@@ -149,33 +149,44 @@
         repeatme();
 
         //event code here
-        canvas.addEventListener("mousemove", function(event) {
+        canvas.addEventListener("mousemove", function (event) {
             p1.y = (event.clientY - canvas.offsetTop) - (p1.width / 2);
         });
 
         // Add a Javascript event listener to the keypress event.
-		window.addEventListener("keypress", function(event) { 
-			// Just log the event to the console.
-			console.log(event);
-		});
+        window.addEventListener("keypress", function (event) {
+            // Just log the event to the console.
+            console.log(event);
+        });
 
-		//keypresses with jQuery
-		$(document.body).on('keydown', function(e) {
-			console.log(e.which);
-			switch (e.which) {
-			// key code for up arrow
-			case 38:
-				//console.log('top arrow key pressed!');
-                p2.y = p2.y - 30;
-				break;
+        //keypresses with jQuery
+        $(document.body).on('keydown', function (e) {
+            console.log(e.which);
+            switch (e.which) {
+                // key code for up arrow
+                case 38:
+                    //console.log('top arrow key pressed!');
+                    p2.y = p2.y - 30;
+                    break;
 
-			// key code for down arrow
-			case 40:
-				//console.log('bottom arrow key pressed!');
-                p2.y = p2.y + 30;
-				break;
-			}
-		});
+                // key code for down arrow
+                case 40:
+                    //console.log('bottom arrow key pressed!');
+                    p2.y = p2.y + 30;
+                    break;
+
+                case 37:
+                    //console.log('left arrow key pressed!');
+                    b1.spin = b1.spin - 0.05;//spin slows down
+                    break;
+
+                // key code for down arrow
+                case 39:
+                    //console.log('right arrow key pressed!');
+                    b1.spin = b1.spin + 0.05;//spin speeds up
+                    break;
+            }
+        });
 
     </script>
 
