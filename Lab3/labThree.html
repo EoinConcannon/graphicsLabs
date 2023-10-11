@@ -35,7 +35,7 @@
         //ball object
         class Ball {
 
-            constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize, xL, yL, direction, spin) {
+            constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize, xL, yL, direction, spin, gravity = 0.5) {
                 this.x = x;
                 this.y = y;
                 this.ySpeed = ySpeed;
@@ -47,6 +47,7 @@
                 this.yL = yL;
                 this.direction = direction;
                 this.spin = spin;
+                this.gravity = gravity;
             }
             draw() {
                 ctx.beginPath();
@@ -78,17 +79,22 @@
                 this.y += this.ySpeed;
                 this.x += this.xSpeed;
 
+                console.log(this.gravity);
+
+                this.ySpeed = this.gravity + this.ySpeed;
+
                 if (this.y >= (700 - this.radian)) {
                     //when ball reaches bottom of canvas, uses the radian so the ball doesn't have to bounce from its centre point
                     //ball goes in opposite direction to avoid going out of bounds
                     //rotation is reversed
+                    this.gravity = this.gravity - 0.1;
                     this.ySpeed = -1 * this.ySpeed;
-                    this.spin = -1 * this.spin;
+                    //this.spin = -1 * this.spin;//disabling this to give the ball a rolling effect when not bouncing
                 }
                 else if (this.y <= this.radian) {
                     //when ball reaches top of canvas
                     this.ySpeed = -1 * this.ySpeed;
-                    this.spin = -1 * this.spin;
+                    //this.spin = -1 * this.spin;
                 }
                 if (this.x >= (1400 - this.radian)) {
                     //when ball reaches right of canvas
@@ -133,10 +139,13 @@
         // A function to repeat every time the animation loops.
         function repeatme() {
             ctx.clearRect(0, 0, 1400, 700);
+            //ball object
             b1.draw();
             b1.move();
             //b1.resize();
             b1.rotate();
+
+            //paddles
             p1.draw();
             p1.move();
             p2.draw();
