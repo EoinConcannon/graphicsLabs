@@ -79,16 +79,23 @@
                 this.y += this.ySpeed;
                 this.x += this.xSpeed;
 
-                console.log(this.gravity);
+                console.log("GRAVITY: " + this.gravity);
+                console.log("SPEED: " + this.ySpeed);
 
-                this.ySpeed = this.gravity + this.ySpeed;
+                this.ySpeed = this.gravity + this.ySpeed + 0.1;
 
                 if (this.y >= (700 - this.radian)) {
                     //when ball reaches bottom of canvas, uses the radian so the ball doesn't have to bounce from its centre point
                     //ball goes in opposite direction to avoid going out of bounds
                     //rotation is reversed
-                    this.gravity = this.gravity - 0.1;
                     this.ySpeed = -1 * this.ySpeed;
+                    this.gravity = this.gravity + 0.2;
+                    if (this.gravity > 2) {
+                        this.gravity = this.gravity - 0.2;
+                        console.log("SLOWING");
+                    }
+
+
                     //this.spin = -1 * this.spin;//disabling this to give the ball a rolling effect when not bouncing
                 }
                 else if (this.y <= this.radian) {
@@ -132,7 +139,7 @@
             move() { }
         }
 
-        b1 = new Ball(200, 200, 3, 4, 100, "crimson", 25, 4, 4, 0, 0.05);
+        b1 = new Ball(200, 150, 3, 4, 100, "crimson", 25, 4, 4, 0, 0.05);
         p1 = new Paddle(50, 20, 200);
         p2 = new Paddle(1250, 20, 200);
 
@@ -170,7 +177,7 @@
 
         //keypresses with jQuery
         $(document.body).on('keydown', function (e) {
-            console.log(e.which);
+            //console.log(e.which);//shows ascii for user's keyboard input
             switch (e.which) {
                 // key code for up arrow
                 case 38:
