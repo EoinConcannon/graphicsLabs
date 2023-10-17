@@ -81,11 +81,7 @@
 
                 //console.log("SPEED: " + this.ySpeed);
 
-                console.log(this.spin);
-
                 this.ySpeed = this.gravity + this.ySpeed;
-
-                //this.gravity = this.gravity - 0.01; //slows down the landing / ball doesn't glitch too hard when not bouncing
 
                 if (this.y >= (700 - this.radian)) {
                     //when ball reaches bottom of canvas, uses the radian so the ball doesn't have to bounce from its centre point
@@ -94,7 +90,7 @@
                     this.ySpeed = -1 * this.ySpeed;
 
                     this.ySpeed = this.ySpeed * this.gravity;
-                    
+
                     //console.log("Y POSITION: " + this.y);
                     //console.log("YSPEED: " + this.ySpeed);
 
