@@ -79,8 +79,9 @@
                 this.y += this.ySpeed;
                 this.x += this.xSpeed;
 
-                //console.log("GRAVITY: " + this.gravity);
                 //console.log("SPEED: " + this.ySpeed);
+
+                console.log(this.spin);
 
                 this.ySpeed = this.gravity + this.ySpeed;
 
@@ -92,8 +93,10 @@
                     //rotation is reversed
                     this.ySpeed = -1 * this.ySpeed;
 
-                    this.gravity = this.gravity + 0.4;
-                    this.ySpeed = this.ySpeed + this.gravity;
+                    this.ySpeed = this.ySpeed * this.gravity;
+                    
+                    //console.log("Y POSITION: " + this.y);
+                    //console.log("YSPEED: " + this.ySpeed);
 
                     //this.spin = -1 * this.spin;//disabling this to give the ball a rolling effect when not bouncing
                 }
@@ -138,7 +141,7 @@
             move() { }
         }
 
-        b1 = new Ball(200, 150, 3, 4, 100, "crimson", 25, 4, 4, 0, 0.05, 1);
+        b1 = new Ball(200, 150, 3, 4, 100, "crimson", 25, 4, 4, 0, 0.05, 0.9);
         p1 = new Paddle(50, 20, 200);
         p2 = new Paddle(1250, 20, 200);
 
