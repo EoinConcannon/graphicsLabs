@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<!-- import -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <html>
 
@@ -33,42 +34,90 @@
 
         //ball object
         class Ball {
-            constructor(x, y, xSpeed, ySpeed, radian) {
+
+            constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize, xL, yL, direction, spin, gravity) {
                 this.x = x;
                 this.y = y;
                 this.ySpeed = ySpeed;
                 this.xSpeed = xSpeed;
                 this.radian = radian;
+                this.colour = colour;
+                this.lineSize = lineSize;
+                this.xL = xL;
+                this.yL = yL;
+                this.direction = direction;
+                this.spin = spin;
+                this.gravity = gravity;
             }
             draw() {
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);
+                ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);//circle created
+                ctx.strokeStyle = this.colour;
+                ctx.lineWidth = this.lineSize;
+
+                ctx.moveTo(this.x, this.y);
+                this.xL = (this.radian * Math.cos(Math.PI / 4 + this.direction) + this.x);
+                this.yL = (this.radian * Math.sin(Math.PI / 4 + this.direction) + this.y);
+                ctx.lineTo(this.xL, this.yL);
+                ctx.moveTo(this.x, this.y);
+                this.xL = (this.radian * Math.cos((5 * Math.PI) / 4 + this.direction) + this.x);
+                this.yL = (this.radian * Math.sin((5 * Math.PI) / 4 + this.direction) + this.y);
+                ctx.lineTo(this.xL, this.yL);
+                ctx.moveTo(this.x, this.y);
+                this.xL = (this.radian * Math.cos((7 * Math.PI) / 4 + this.direction) + this.x);
+                this.yL = (this.radian * Math.sin((7 * Math.PI) / 4 + this.direction) + this.y);
+                ctx.lineTo(this.xL, this.yL);
+                ctx.moveTo(this.x, this.y);
+                this.xL = (this.radian * Math.cos((3 * Math.PI) / 4 + this.direction) + this.x);
+                this.yL = (this.radian * Math.sin((3 * Math.PI) / 4 + this.direction) + this.y);
+                ctx.lineTo(this.xL, this.yL);
                 ctx.stroke();
+
             }
             move() {
                 //Update the y and x location.
                 this.y += this.ySpeed;
                 this.x += this.xSpeed;
 
-                if (this.y >= 700) {
-                    //when ball reaches bottom of canvas
+                //console.log("GRAVITY: " + this.gravity);
+                //console.log("SPEED: " + this.ySpeed);
+
+                this.ySpeed = this.gravity + this.ySpeed;
+
+                //this.gravity = this.gravity - 0.01; //slows down the landing / ball doesn't glitch too hard when not bouncing
+
+                if (this.y >= (700 - this.radian)) {
+                    //when ball reaches bottom of canvas, uses the radian so the ball doesn't have to bounce from its centre point
+                    //ball goes in opposite direction to avoid going out of bounds
+                    //rotation is reversed
                     this.ySpeed = -1 * this.ySpeed;
+
+                    this.gravity = this.gravity + 0.4;
+                    this.ySpeed = this.ySpeed + this.gravity;
+
+                    //this.spin = -1 * this.spin;//disabling this to give the ball a rolling effect when not bouncing
                 }
-                else if (this.y <= 0) {
+                else if (this.y <= this.radian) {
                     //when ball reaches top of canvas
                     this.ySpeed = -1 * this.ySpeed;
+                    //this.spin = -1 * this.spin;
                 }
-                if (this.x >= 1400) {
+                if (this.x >= (1400 - this.radian)) {
                     //when ball reaches right of canvas
                     this.xSpeed = -1 * this.xSpeed;
+                    this.spin = -1 * this.spin;
                 }
-                else if (this.x <= 0) {
+                else if (this.x <= this.radian) {
                     //when ball reaches left of canvas
                     this.xSpeed = -1 * this.xSpeed;
+                    this.spin = -1 * this.spin;
                 }
             }
             resize(radian) {
                 this.radian = radian;
+            }
+            rotate() {
+                this.direction = this.direction + this.spin;
             }
         }
 
@@ -82,21 +131,27 @@
             draw() {
                 ctx.beginPath();
                 ctx.rect(this.x, this.y, 100, this.width);
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 1;
                 ctx.stroke();
             }
             move() { }
         }
 
-        b1 = new Ball(50, 50, 5, 5, 20);
+        b1 = new Ball(200, 150, 3, 4, 100, "crimson", 25, 4, 4, 0, 0.05, 1);
         p1 = new Paddle(50, 20, 200);
         p2 = new Paddle(1250, 20, 200);
 
         // A function to repeat every time the animation loops.
         function repeatme() {
             ctx.clearRect(0, 0, 1400, 700);
+            //ball object
             b1.draw();
             b1.move();
             //b1.resize();
+            b1.rotate();
+
+            //paddles
             p1.draw();
             p1.move();
             p2.draw();
@@ -109,33 +164,44 @@
         repeatme();
 
         //event code here
-        canvas.addEventListener("mousemove", function(event) {
+        canvas.addEventListener("mousemove", function (event) {
             p1.y = (event.clientY - canvas.offsetTop) - (p1.width / 2);
         });
 
         // Add a Javascript event listener to the keypress event.
-		window.addEventListener("keypress", function(event) { 
-			// Just log the event to the console.
-			console.log(event);
-		});
+        window.addEventListener("keypress", function (event) {
+            // Just log the event to the console.
+            console.log(event);
+        });
 
-		//keypresses with jQuery
-		$(document.body).on('keydown', function(e) {
-			console.log(e.which);
-			switch (e.which) {
-			// key code for up arrow
-			case 38:
-				//console.log('top arrow key pressed!');
-                p2.y = p2.y - 30;
-				break;
+        //keypresses with jQuery
+        $(document.body).on('keydown', function (e) {
+            //console.log(e.which);//shows ascii for user's keyboard input
+            switch (e.which) {
+                // key code for up arrow
+                case 38:
+                    //console.log('top arrow key pressed!');
+                    p2.y = p2.y - 30;
+                    break;
 
-			// key code for down arrow
-			case 40:
-				//console.log('bottom arrow key pressed!');
-                p2.y = p2.y + 30;
-				break;
-			}
-		});
+                // key code for down arrow
+                case 40:
+                    //console.log('bottom arrow key pressed!');
+                    p2.y = p2.y + 30;
+                    break;
+
+                case 37:
+                    //console.log('left arrow key pressed!');
+                    b1.spin = b1.spin - 0.05;//spin slows down
+                    break;
+
+                // key code for down arrow
+                case 39:
+                    //console.log('right arrow key pressed!');
+                    b1.spin = b1.spin + 0.05;//spin speeds up
+                    break;
+            }
+        });
 
     </script>
 

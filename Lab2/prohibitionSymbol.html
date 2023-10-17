@@ -33,7 +33,8 @@
 
       //ball object
       class Ball{
-        constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize, angle, xL, yL, direction){
+        
+        constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize, xL, yL, direction, spin){
           this.x = x;
           this.y = y;
           this.ySpeed = ySpeed;
@@ -41,10 +42,10 @@
           this.radian = radian;
           this.colour = colour;
           this.lineSize = lineSize;
-          this.angle = angle;
           this.xL = xL;
           this.yL = yL;
           this.direction = direction;
+          this.spin = spin;
         }
         draw(){
           ctx.beginPath();
@@ -52,17 +53,34 @@
           ctx.strokeStyle = this.colour;
           ctx.lineWidth = this.lineSize;
 
-          ctx.moveTo(this.angle + this.x - (this.radian/1.5), this.y - (this.radian/1.5));//divide by 1.5 to not move starting point outside the circle
-          this.xL = (this.radian * Math.cos(Math.PI/4) + this.x * this.direction);
-          this.yL = (this.radian * Math.sin(Math.PI/4) + this.y * this.direction);
-          ctx.lineTo(this.xL, this.yL - this.angle);
-          ctx.moveTo(this.x + (this.radian/1.5), this.y - (this.radian/1.5));//only change x
-          this.xL = (this.radian * Math.cos(Math.PI/1.35) + this.x * this.direction);//??? division number is a guess
-          this.yL = (this.radian * Math.sin(Math.PI/1.35) + this.y * this.direction);
+        //OLD
+          // ctx.moveTo(this.angle + this.x - (this.radian/1.5), this.y - (this.radian/1.5));//divide by 1.5 to not move starting point outside the circle
+          // this.xL = (this.radian * Math.cos(Math.PI/4) + this.x * this.direction);
+          // this.yL = (this.radian * Math.sin(Math.PI/4) + this.y * this.direction);
+          // ctx.lineTo(this.xL, this.yL - this.angle);
+          // ctx.moveTo(this.x + (this.radian/1.5), this.y - (this.radian/1.5));//only change x
+          // this.xL = (this.radian * Math.cos(Math.PI/1.35) + this.x * this.direction);//??? division number is a guess
+          // this.yL = (this.radian * Math.sin(Math.PI/1.35) + this.y * this.direction);
+          // ctx.lineTo(this.xL, this.yL);
+        //OLD
+
+          ctx.moveTo(this.x, this.y);//change starting point later
+          this.xL = (this.radian * Math.cos(Math.PI/4 + this.direction) + this.x);
+          this.yL = (this.radian * Math.sin(Math.PI/4 + this.direction) + this.y);
+          ctx.lineTo(this.xL, this.yL);
+          ctx.moveTo(this.x, this.y);
+          this.xL = (this.radian * Math.cos((5*Math.PI)/4 + this.direction) + this.x);
+          this.yL = (this.radian * Math.sin((5*Math.PI)/4 + this.direction) + this.y);
+          ctx.lineTo(this.xL, this.yL);
+          ctx.moveTo(this.x, this.y);
+          this.xL = (this.radian * Math.cos((7*Math.PI)/4 + this.direction) + this.x);
+          this.yL = (this.radian * Math.sin((7*Math.PI)/4 + this.direction) + this.y);
+          ctx.lineTo(this.xL, this.yL);
+          ctx.moveTo(this.x, this.y);
+          this.xL = (this.radian * Math.cos((3*Math.PI)/4 + this.direction) + this.x);
+          this.yL = (this.radian * Math.sin((3*Math.PI)/4 + this.direction) + this.y);
           ctx.lineTo(this.xL, this.yL);
           ctx.stroke();
-
-          //remove this.angle if broken
 
           //sin, cos
 
@@ -77,48 +95,36 @@
 
           if(this.y >= (750-this.radian)){
             //when ball reaches bottom of canvas, uses the radian so the ball doesn't have to bounce from its centre point
+            //ball goes in opposite direction to avoid going out of bounds
+            //rotation is reversed
             this.ySpeed = -1 * this.ySpeed;
+            this.spin = -1 * this.spin;
           }
           else if(this.y <= this.radian){
             //when ball reaches top of canvas
             this.ySpeed = -1 * this.ySpeed;
+            this.spin = -1 * this.spin;
           }
           if(this.x >= (1000-this.radian)){
             //when ball reaches right of canvas
             this.xSpeed = -1 * this.xSpeed;
+            this.spin = -1 * this.spin;
           }
           else if(this.x <= this.radian){
             //when ball reaches left of canvas
             this.xSpeed = -1 * this.xSpeed;
+            this.spin = -1 * this.spin;
           }
         }
         resize(radian){
           this.radian = radian;
         }
-        rotate(direction){
-          //this.angle =  this.angle + direction;
-
-          if(this.y >= (750-this.radian)){
-            //when ball reaches top of canvas
-            this.direction = -1 * this.direction;
-            //console.log("hit");
-          }
-          else if(this.y <= this.radian){
-            //when ball reaches top of canvas
-            this.direction = -1 * this.direction;
-          }
-          if(this.x >= (1000-this.radian)){
-            //when ball reaches right of canvas
-            this.direction = -1 * this.direction;
-          }
-          else if(this.x <= this.radian){
-            //when ball reaches left of canvas
-            this.direction = -1 * this.direction;
-          }
+        rotate(){
+          this.direction = this.direction + this.spin;
         }
       }
 
-      b1 = new Ball(200, 200, 3, 4, 100, "crimson", 25, 1, 4, 4, 1);//last 4 are:angle, xL, yL, direction
+      b1 = new Ball(200, 200, 3, 4, 100, "crimson", 25, 4, 4, 0, 0.05);//last 4 are:angle, xL, yL, direction
 
       // A function to repeat every time the animation loops.
       function repeatme() {

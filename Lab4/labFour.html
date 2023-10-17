@@ -91,8 +91,8 @@
         }
 
         b1 = new Ball(50, 50, 5, 5, 20, "red");
-        p1 = new Paddle(50, 20, 30);
-        p2 = new Paddle(1250, 20, 30);
+        p1 = new Paddle(100, 20, 30);
+        p2 = new Paddle(1300, 20, 30);
 
         // A function to repeat every time the animation loops.
         function repeatme() {
@@ -105,6 +105,8 @@
             p2.draw();
             p2.move();
 
+            hitDetection();
+
             window.requestAnimationFrame(repeatme);
         }
 
@@ -113,7 +115,7 @@
 
         //event code here
         canvas.addEventListener("mousemove", function (event) {
-            p1.y = (event.clientY - canvas.offsetTop) - (p1.width / 2);
+            p1.y = (event.clientY - canvas.offsetTop);
         });
 
         // Add a Javascript event listener to the keypress event.
@@ -124,7 +126,7 @@
 
         //keypresses with jQuery
         $(document.body).on('keydown', function (e) {
-            console.log(e.which);
+            //console.log(e.which);
             switch (e.which) {
                 // key code for up arrow
                 case 38:
@@ -139,6 +141,12 @@
                     break;
             }
         });
+
+        function hitDetection() {
+            if (b1.x && b1.y == p1.x && p1.y) {
+                console.log("CONTACT");
+            }
+        }
 
     </script>
 
