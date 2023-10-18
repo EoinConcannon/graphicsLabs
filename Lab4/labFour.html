@@ -25,7 +25,10 @@
 
     <canvas id="canvas-for-ball" width="1400" height="700"></canvas>
 
-    <h1 hidden>HIT</h1>
+    <h1 id="showText">HIT</h1> 
+
+    <!-- <button onclick="setTimeout(myFunction, 3000)">Try it</button> 
+    https://www.w3schools.com/js/js_timing.asp -->
 
     <script type="text/javascript">
         // Gets a handle to the element with id canvasOne.
@@ -147,6 +150,11 @@
         function hitDetection() {
             if (b1.x == p1.x || b1.y == p1.y) {
                 console.log("CONTACT");
+                document.getElementById("showText").style.visibility = "visible";
+            }
+            else
+            {
+                document.getElementById("showText").style.visibility = "hidden";//add timer
             }
         }
 
