@@ -25,7 +25,7 @@
 
     <canvas id="canvas-for-ball" width="1400" height="700"></canvas>
 
-    <h1 id="showText">HIT</h1> 
+    <h1 id="showText">HIT</h1>
 
     <!-- <button onclick="setTimeout(myFunction, 3000)">Try it</button> 
     https://www.w3schools.com/js/js_timing.asp -->
@@ -38,19 +38,41 @@
 
         //ball object
         class Ball {
-            constructor(x, y, xSpeed, ySpeed, radian, colour) {
+            constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize, xL, yL, direction, spin) {
                 this.x = x;
                 this.y = y;
                 this.ySpeed = ySpeed;
                 this.xSpeed = xSpeed;
                 this.radian = radian;
                 this.colour = colour;
+                this.lineSize = lineSize;
+                this.xL = xL;
+                this.yL = yL;
+                this.direction = direction;
+                this.spin = spin;
             }
             draw() {
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);
-                ctx.fillStyle = this.colour;
-                ctx.fill();
+                ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);//circle created
+                ctx.strokeStyle = this.colour;
+                ctx.lineWidth = this.lineSize;
+
+                ctx.moveTo(this.x, this.y);//change starting point later
+                this.xL = (this.radian * Math.cos(Math.PI / 4 + this.direction) + this.x);
+                this.yL = (this.radian * Math.sin(Math.PI / 4 + this.direction) + this.y);
+                ctx.lineTo(this.xL, this.yL);
+                ctx.moveTo(this.x, this.y);
+                this.xL = (this.radian * Math.cos((5 * Math.PI) / 4 + this.direction) + this.x);
+                this.yL = (this.radian * Math.sin((5 * Math.PI) / 4 + this.direction) + this.y);
+                ctx.lineTo(this.xL, this.yL);
+                ctx.moveTo(this.x, this.y);
+                this.xL = (this.radian * Math.cos((7 * Math.PI) / 4 + this.direction) + this.x);
+                this.yL = (this.radian * Math.sin((7 * Math.PI) / 4 + this.direction) + this.y);
+                ctx.lineTo(this.xL, this.yL);
+                ctx.moveTo(this.x, this.y);
+                this.xL = (this.radian * Math.cos((3 * Math.PI) / 4 + this.direction) + this.x);
+                this.yL = (this.radian * Math.sin((3 * Math.PI) / 4 + this.direction) + this.y);
+                ctx.lineTo(this.xL, this.yL);
                 ctx.stroke();
             }
             move() {
@@ -58,25 +80,34 @@
                 this.y += this.ySpeed;
                 this.x += this.xSpeed;
 
-                if (this.y >= 700) {
-                    //when ball reaches bottom of canvas
+                if (this.y >= (700 - this.radian)) {
+                    //when ball reaches bottom of canvas, uses the radian so the ball doesn't have to bounce from its centre point
+                    //ball goes in opposite direction to avoid going out of bounds
+                    //rotation is reversed
                     this.ySpeed = -1 * this.ySpeed;
+                    this.spin = -1 * this.spin;
                 }
-                else if (this.y <= 0) {
+                else if (this.y <= this.radian) {
                     //when ball reaches top of canvas
                     this.ySpeed = -1 * this.ySpeed;
+                    this.spin = -1 * this.spin;
                 }
-                if (this.x >= 1400) {
+                if (this.x >= (1400 - this.radian)) {
                     //when ball reaches right of canvas
                     this.xSpeed = -1 * this.xSpeed;
+                    this.spin = -1 * this.spin;
                 }
-                else if (this.x <= 0) {
+                else if (this.x <= this.radian) {
                     //when ball reaches left of canvas
                     this.xSpeed = -1 * this.xSpeed;
+                    this.spin = -1 * this.spin;
                 }
             }
             resize(radian) {
                 this.radian = radian;
+            }
+            rotate() {
+                this.direction = this.direction + this.spin;
             }
         }
 
@@ -90,12 +121,14 @@
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 1;
                 ctx.stroke();
             }
             move() { }
         }
 
-        b1 = new Ball(50, 50, 5, 5, 20, "red");
+        b1 = new Ball(50, 50, 5, 6, 2, "crimson", 25, 4, 4, 0, 0.05);
         p1 = new Paddle(100, 20, 30);
         p2 = new Paddle(1300, 20, 30);
 
@@ -105,6 +138,7 @@
             b1.draw();
             b1.move();
             //b1.resize();
+            b1.rotate();
             p1.draw();
             p1.move();
             p2.draw();
@@ -152,8 +186,7 @@
                 console.log("CONTACT");
                 document.getElementById("showText").style.visibility = "visible";
             }
-            else
-            {
+            else {
                 document.getElementById("showText").style.visibility = "hidden";//add timer
             }
         }
