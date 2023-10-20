@@ -50,6 +50,10 @@
                 this.yL = yL;
                 this.direction = direction;
                 this.spin = spin;
+
+                //variables user will use to affect speed
+                this.changeSpeedX = 0.5;
+                this.changeSpeedY = 0.5;
             }
             draw() {
                 ctx.beginPath();
@@ -86,21 +90,30 @@
                     //rotation is reversed
                     this.ySpeed = -1 * this.ySpeed;
                     this.spin = -1 * this.spin;
+                    //changespeed also changed to match the balls current direction
+                    this.changeSpeedX = -1 * 0.5;
+                    this.changeSpeedY = -1 * 0.5;
                 }
                 else if (this.y <= this.radian) {
                     //when ball reaches top of canvas
                     this.ySpeed = -1 * this.ySpeed;
                     this.spin = -1 * this.spin;
+                    this.changeSpeedX = -1 * 0.5;
+                    this.changeSpeedY = -1 * 0.5;
                 }
                 if (this.x >= (1400 - this.radian)) {
                     //when ball reaches right of canvas
                     this.xSpeed = -1 * this.xSpeed;
                     this.spin = -1 * this.spin;
+                    this.changeSpeedX = -1 * 0.5;
+                    this.changeSpeedY = -1 * 0.5;
                 }
                 else if (this.x <= this.radian) {
                     //when ball reaches left of canvas
                     this.xSpeed = -1 * this.xSpeed;
                     this.spin = -1 * this.spin;
+                    this.changeSpeedX = -1 * 0.5;
+                    this.changeSpeedY = -1 * 0.5;
                 }
             }
             resize(radian) {
@@ -121,6 +134,7 @@
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);
+                //changing strokestyle and linewidth back to avoid changes made in ball object
                 ctx.strokeStyle = "black";
                 ctx.lineWidth = 1;
                 ctx.stroke();
@@ -139,6 +153,7 @@
             b1.move();
             //b1.resize();
             b1.rotate();
+
             p1.draw();
             p1.move();
             p2.draw();
@@ -177,6 +192,20 @@
                 case 40:
                     //console.log('bottom arrow key pressed!');
                     p2.y = p2.y + 30;
+                    break;
+
+                case 37:
+                    //console.log('left arrow key pressed!');
+                    //speeds up ball
+                    b1.xSpeed = b1.xSpeed + this.changeSpeedX;
+                    b1.ySpeed = b1.ySpeed + this.changeSpeedY;
+                    break;
+
+                case 39:
+                    //console.log('right arrow key pressed!');
+                    //slows down ball
+                    b1.xSpeed = b1.xSpeed - this.changeSpeedX;
+                    b1.ySpeed = b1.ySpeed - this.changeSpeedY;
                     break;
             }
         });
