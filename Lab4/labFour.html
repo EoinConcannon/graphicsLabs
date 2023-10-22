@@ -52,8 +52,8 @@
                 this.spin = spin;
 
                 //variables user will use to affect speed
-                this.changeSpeedX = 0.5;
-                this.changeSpeedY = 0.5;
+                this.changeSpeedX = 1;
+                this.changeSpeedY = 1;
             }
             draw() {
                 ctx.beginPath();
@@ -136,13 +136,13 @@
                 ctx.arc(this.x, this.y, this.radian, 0, 2 * Math.PI);
                 //changing strokestyle and linewidth back to avoid changes made in ball object
                 ctx.strokeStyle = "black";
-                ctx.lineWidth = 1;
+                ctx.lineWidth = 2;
                 ctx.stroke();
             }
             move() { }
         }
 
-        b1 = new Ball(50, 50, 5, 6, 2, "crimson", 25, 4, 4, 0, 0.05);
+        b1 = new Ball(50, 50, 5, 6, 15, "crimson", 5, 4, 4, 0, 0.05);
         p1 = new Paddle(100, 20, 30);
         p2 = new Paddle(1300, 20, 30);
 
@@ -197,23 +197,25 @@
                 case 37:
                     //console.log('left arrow key pressed!');
                     //speeds up ball
-                    b1.xSpeed = b1.xSpeed + this.changeSpeedX;
-                    b1.ySpeed = b1.ySpeed + this.changeSpeedY;
+                    b1.xSpeed = b1.xSpeed + b1.changeSpeedX;
+                    b1.ySpeed = b1.ySpeed + b1.changeSpeedY;
                     break;
 
                 case 39:
                     //console.log('right arrow key pressed!');
                     //slows down ball
-                    b1.xSpeed = b1.xSpeed - this.changeSpeedX;
-                    b1.ySpeed = b1.ySpeed - this.changeSpeedY;
+                    b1.xSpeed = b1.xSpeed - b1.changeSpeedX;
+                    b1.ySpeed = b1.ySpeed - b1.changeSpeedY;
                     break;
             }
         });
 
         function hitDetection() {
-            if (b1.x == p1.x || b1.y == p1.y) {
+            if (b1.x == p1.x && b1.y == p1.y) {
                 console.log("CONTACT");
-                document.getElementById("showText").style.visibility = "visible";
+                document.getElementById("showText").style.visibility = "visible";//message below canvas
+
+                b1.xSpeed = -1 * b1.xSpeed;//ball is hit back
             }
             else {
                 document.getElementById("showText").style.visibility = "hidden";//add timer
