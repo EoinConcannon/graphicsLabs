@@ -211,7 +211,9 @@
         });
 
         function hitDetection() {
-            if (b1.x == p1.x && b1.y == p1.y) {
+            var distance = ((b1.x - p1.x) + (b1.y - p1.y));
+
+            if (distance <= b1.radian + p1.radian) {
                 console.log("CONTACT");
                 document.getElementById("showText").style.visibility = "visible";//message below canvas
 
