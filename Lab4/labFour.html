@@ -142,7 +142,11 @@
             move() { }
         }
 
-        b1 = new Ball(50, 50, 5, 6, 15, "crimson", 5, 4, 4, 0, 0.05);
+        b1 = new Ball(150, 150, 5, 6, 15, "crimson", 5, 4, 4, 0, 0.05);
+        b2 = new Ball(30, 70, 5, 6, 15, "blue", 5, 4, 4, 0, 0.05);
+        b3 = new Ball(400, 200, 5, 6, 15, "green", 5, 4, 4, 0, 0.05);
+        b4 = new Ball(900, 90, 5, 6, 15, "gold", 5, 4, 4, 0, 0.05);
+        
         p1 = new Paddle(100, 20, 30);
         p2 = new Paddle(1300, 20, 30);
 
@@ -153,6 +157,18 @@
             b1.move();
             //b1.resize();
             b1.rotate();
+
+            b2.draw();
+            b2.move();
+            b2.rotate();
+
+            b3.draw();
+            b3.move();
+            b3.rotate();
+
+            b4.draw();
+            b4.move();
+            b4.rotate();
 
             p1.draw();
             p1.move();
@@ -211,9 +227,12 @@
         });
 
         function hitDetection() {
-            var distance = ((b1.x - p1.x) + (b1.y - p1.y));
+            //hit detection variables
+            var distanceLeft = Math.sqrt((b1.x - p1.x) * (b1.x - p1.x) + (b1.y - p1.y) * (b1.y - p1.y));
+            var distanceRight = Math.sqrt((b1.x - p2.x) * (b1.x - p2.x) + (b1.y - p2.y) * (b1.y - p2.y));
 
-            if (distance <= b1.radian + p1.radian) {
+            //when the match ball hits a paddle
+            if (distanceLeft <= b1.radian + p1.radian || distanceRight <= b1.radian + p2.radian) {
                 console.log("CONTACT");
                 document.getElementById("showText").style.visibility = "visible";//message below canvas
 
