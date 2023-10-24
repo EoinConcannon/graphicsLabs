@@ -38,7 +38,7 @@
 
         //ball object
         class Ball {
-            constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize, xL, yL, direction, spin) {
+            constructor(x, y, xSpeed, ySpeed, radian, colour, lineSize, xL, yL, direction, spin, gravity) {
                 this.x = x;
                 this.y = y;
                 this.ySpeed = ySpeed;
@@ -50,6 +50,7 @@
                 this.yL = yL;
                 this.direction = direction;
                 this.spin = spin;
+                this.gravity = gravity;
 
                 //variables user will use to affect speed
                 this.changeSpeedX = 1;
@@ -84,12 +85,26 @@
                 this.y += this.ySpeed;
                 this.x += this.xSpeed;
 
+                this.ySpeed = this.gravity + this.ySpeed;//gravity
+
                 if (this.y >= (700 - this.radian)) {
                     //when ball reaches bottom of canvas, uses the radian so the ball doesn't have to bounce from its centre point
                     //ball goes in opposite direction to avoid going out of bounds
                     //rotation is reversed
                     this.ySpeed = -1 * this.ySpeed;
-                    this.spin = -1 * this.spin;
+                    this.y = this.y - 1;//gravity
+                    this.ySpeed = this.ySpeed * this.gravity;//gravity
+
+                    if(this.ySpeed > -11)
+                    {
+                        this.ySpeed = this.ySpeed + this.gravity;
+                    }
+                    if(this.ySpeed > -3)
+                    {
+                        this.ySpeed = 0;
+                    }
+
+                    //this.spin = -1 * this.spin;
                     //changespeed also changed to match the balls current direction
                     this.changeSpeedX = -1 * 0.5;
                     this.changeSpeedY = -1 * 0.5;
@@ -97,7 +112,7 @@
                 else if (this.y <= this.radian) {
                     //when ball reaches top of canvas
                     this.ySpeed = -1 * this.ySpeed;
-                    this.spin = -1 * this.spin;
+                    //this.spin = -1 * this.spin;
                     this.changeSpeedX = -1 * 0.5;
                     this.changeSpeedY = -1 * 0.5;
                 }
@@ -142,10 +157,10 @@
             move() { }
         }
 
-        b1 = new Ball(150, 150, 5, 6, 15, "crimson", 5, 4, 4, 0, 0.05);
-        b2 = new Ball(30, 70, 5, 6, 15, "blue", 5, 4, 4, 0, 0.05);
-        b3 = new Ball(400, 200, 5, 6, 15, "green", 5, 4, 4, 0, 0.05);
-        b4 = new Ball(900, 90, 5, 6, 15, "gold", 5, 4, 4, 0, 0.05);
+        b1 = new Ball(150, 150, 5, 6, 15, "crimson", 5, 4, 4, 0, 0.05, 0.9);
+        b2 = new Ball(30, 70, 5, 6, 10, "blue", 2.5, 4, 4, 0, 0.05, 0.9);
+        b3 = new Ball(400, 200, 5, 6, 40, "green", 12.5, 4, 4, 0, 0.05, 0.9);
+        b4 = new Ball(900, 90, 5, 6, 15, "gold", 5, 4, 4, 0, 0.05, 0.9);
         
         p1 = new Paddle(100, 20, 30);
         p2 = new Paddle(1300, 20, 30);
@@ -233,11 +248,7 @@
 
             //when the match ball hits a paddle
             if (distanceLeft <= b1.radian + p1.radian || distanceRight <= b1.radian + p2.radian) {
-<<<<<<< HEAD
                 //console.log("CONTACT");
-=======
-                console.log("CONTACT");
->>>>>>> f2eefaf88c9f31a8fc0afcf435262da9cb560d32
                 document.getElementById("showText").style.visibility = "visible";//message below canvas
 
                 b1.xSpeed = -1 * b1.xSpeed;//ball is hit back
