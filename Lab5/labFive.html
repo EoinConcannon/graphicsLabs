@@ -22,11 +22,18 @@
         document.body.appendChild(renderer.domElement);
 
         var geometry = new THREE.TetrahedronGeometry(10, 0);
-        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 , wireframe: false});
+        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: false });
         var tetra = new THREE.Mesh(geometry, material);
         scene.add(tetra);
 
         camera.position.z = 25;
+
+        var spotLight = new THREE.SpotLight(0xffffff);
+        spotLight.position.set(1, 0.5, 1);
+        scene.add(spotLight);
+
+        // var spotLightHelper = new THREE.SpotLightHelper(spotLight);
+        // scene.add(spotLightHelper);
 
         var repeatMe = function () {
             renderer.render(scene, camera);
@@ -35,6 +42,8 @@
             //Code to rotate tetrahedron
             tetra.rotation.x += 0.01;
             tetra.rotation.y += 0.01;
+
+            tetra.position.x += 0.1;
         };
         repeatMe();
     </script>
