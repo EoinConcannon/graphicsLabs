@@ -22,7 +22,7 @@
         document.body.appendChild(renderer.domElement);
 
         var geometry = new THREE.TetrahedronGeometry(10, 0);
-        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: false });
+        var material = new THREE.MeshLambertMaterial({ color: 0x00ff00, wireframe: false });
         var tetra = new THREE.Mesh(geometry, material);
         scene.add(tetra);
 
@@ -31,6 +31,10 @@
         var spotLight = new THREE.SpotLight(0xffffff);
         spotLight.position.set(1, 0.5, 1);
         scene.add(spotLight);
+
+        spotLight.position.z = 25;
+        spotLight.intensity = 10; //spotlight was too weak, increases brightness of light 
+        //https://stackoverflow.com/questions/16319096/three-js-change-light-intensity-dynamically
 
         // var spotLightHelper = new THREE.SpotLightHelper(spotLight);
         // scene.add(spotLightHelper);
