@@ -14,7 +14,7 @@
 <body>
     <script type="text/javascript">
         var scene = new THREE.Scene();
-                                               //fov
+        //fov
         var camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
 
         var renderer = new THREE.WebGLRenderer();
@@ -22,15 +22,19 @@
         document.body.appendChild(renderer.domElement);
 
         var geometry = new THREE.TetrahedronGeometry(10, 0);
-        var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         var tetra = new THREE.Mesh(geometry, material);
         scene.add(tetra);
 
         camera.position.z = 25;
 
-        var repeatMe = function(){
+        var repeatMe = function () {
             renderer.render(scene, camera);
             requestAnimationFrame(repeatMe);
+
+            //Code to rotate tetrahedron
+            tetra.rotation.x += 0.01;
+            tetra.rotation.y += 0.01;
         };
         repeatMe();
     </script>
