@@ -40,12 +40,20 @@
         plane.receiveShadow = true;
         scene.add(plane);
 
-        //END OF SHAPES
-
         plane.position.y = -15;
         plane.rotation.x = 250;
 
-        camera.position.z = 25;
+        //creating transparent Box
+        var geometry = new THREE.BoxGeometry(50, 50, 50);
+        var material = new THREE.MeshLambertMaterial({ color: 0x00ffff, transparent: true, opacity: 0.75 });
+        var cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        cube.position.z = -20;
+
+        //END OF SHAPES
+
+        camera.position.z = 30;
 
         var spotLight = new THREE.SpotLight(0xffffff);
         spotLight.castShadow = true; // default false
@@ -53,7 +61,8 @@
         scene.add(spotLight);
 
         spotLight.position.y = 20;
-        spotLight.intensity = 50; //spotlight was too weak, increases brightness of light 
+        spotLight.position.z = 10;
+        spotLight.intensity = 100; //spotlight was too weak, increases brightness of light 
 
         //Set up shadow properties for the light
         spotLight.shadow.mapSize.width = 512; // default
