@@ -33,32 +33,37 @@
         // var spotLightHelper = new THREE.SpotLightHelper(spotLight);
         // scene.add(spotLightHelper);
 
-        class Tetrahedron{
-            constructor(radius, detail){
+        class Tetrahedron {
+            constructor(radius, detail) {
                 this.radius = radius;
                 this.detail = detail;
+
+                this.geometry = new THREE.TetrahedronGeometry(this.radius, this.detail);
+                this.material = new THREE.MeshLambertMaterial({ color: 0x00ff00, wireframe: false });
+                this.tetra = new THREE.Mesh(this.geometry, this.material);
             }
-            create(){
-                var geometry = new THREE.TetrahedronGeometry(this.radius, this.detail);
-                var material = new THREE.MeshLambertMaterial({ color: 0x00ff00, wireframe: false });
-                var tetra = new THREE.Mesh(geometry, material);
+            create() {
+                scene.add(this.tetra);
+            }
+            rotate() {
+                this.tetra.rotation.x += 0.01;
+                this.tetra.rotation.y += 0.01;
             }
         }
 
         //OBJECT
         t1 = new Tetrahedron(10, 0);
         t1.create();
-        scene.add(t1);
 
         var repeatMe = function () {
             renderer.render(scene, camera);
             requestAnimationFrame(repeatMe);
 
-            //Code to rotate tetrahedron
-            t1.rotation.x += 0.01;
-            t1.rotation.y += 0.01;
+            //rotate();
 
-            t1.position.x += 0.1;
+            //Code to rotate tetrahedron
+
+            //t1.position.x += 0.1;
         };
         repeatMe();
     </script>
