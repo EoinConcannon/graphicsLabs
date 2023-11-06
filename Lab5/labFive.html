@@ -62,8 +62,10 @@
         spotLight.shadow.camera.far = 500; // default
         spotLight.shadow.focus = 1; // default
 
-         //var spotLightHelper = new THREE.SpotLightHelper(spotLight);
-         //scene.add(spotLightHelper);
+        //var spotLightHelper = new THREE.SpotLightHelper(spotLight);
+        //scene.add(spotLightHelper);
+
+        var yMovement = -0.2;//moves tetra down
 
         var repeatMe = function () {
             renderer.render(scene, camera);
@@ -74,6 +76,11 @@
             tetra.rotation.y += 0.01;
 
             tetra.position.x += 0.1;
+            tetra.position.y += yMovement;
+
+            if (plane.position.y > tetra.position.y) {
+                yMovement = -1 * yMovement;
+            }
         };
         repeatMe();
     </script>
