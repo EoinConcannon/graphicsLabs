@@ -74,7 +74,9 @@
         //var spotLightHelper = new THREE.SpotLightHelper(spotLight);
         //scene.add(spotLightHelper);
 
+        var xMovement = 0.1;
         var yMovement = -0.01;//moves tetra down
+
         var gravity = -0.9;
 
         var repeatMe = function () {
@@ -85,7 +87,7 @@
             tetra.rotation.x += 0.01;
             tetra.rotation.y += 0.01;
 
-            tetra.position.x += 0.1;
+            tetra.position.x += xMovement;
             tetra.position.y += yMovement;
 
             //gravity
@@ -94,6 +96,13 @@
             if (plane.position.y > tetra.position.y) {
                 yMovement = yMovement * gravity;
             }
+
+            // if (tetra.position.x > 25) {
+            //     xMovement = -1 * xMovement;
+            // }
+            // if (tetra.position.x < 25) {
+            //     xMovement = -1 * xMovement;
+            // }
         };
         repeatMe();
     </script>
