@@ -21,6 +21,25 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
+        //SHAPES
+
+        //creating the Tetrahedron
+        var geometry = new THREE.TetrahedronGeometry(10, 0);
+        var material = new THREE.MeshLambertMaterial({ color: 0x00ff00, wireframe: false });
+        var tetra = new THREE.Mesh(geometry, material);
+        scene.add(tetra);
+
+        //creating the Plane
+        var geometry = new THREE.PlaneGeometry(70, 30);
+        var material = new THREE.MeshLambertMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+        var plane = new THREE.Mesh(geometry, material);
+        scene.add(plane);
+
+        //END OF SHAPES
+
+        plane.position.y = -15;
+        plane.rotation.x = 250;
+
         camera.position.z = 25;
 
         var spotLight = new THREE.SpotLight(0xffffff);
@@ -28,42 +47,20 @@
         scene.add(spotLight);
 
         spotLight.position.z = 25;
-        spotLight.intensity = 10; //spotlight was too weak, increases brightness of light 
+        spotLight.intensity = 50; //spotlight was too weak, increases brightness of light 
 
         // var spotLightHelper = new THREE.SpotLightHelper(spotLight);
         // scene.add(spotLightHelper);
-
-        class Tetrahedron {
-            constructor(radius, detail) {
-                this.radius = radius;
-                this.detail = detail;
-
-                this.geometry = new THREE.TetrahedronGeometry(this.radius, this.detail);
-                this.material = new THREE.MeshLambertMaterial({ color: 0x00ff00, wireframe: false });
-                this.tetra = new THREE.Mesh(this.geometry, this.material);
-            }
-            create() {
-                scene.add(this.tetra);
-            }
-            rotate() {
-                this.tetra.rotation.x += 0.01;
-                this.tetra.rotation.y += 0.01;
-            }
-        }
-
-        //OBJECT
-        t1 = new Tetrahedron(10, 0);
-        t1.create();
 
         var repeatMe = function () {
             renderer.render(scene, camera);
             requestAnimationFrame(repeatMe);
 
-            //rotate();
-
             //Code to rotate tetrahedron
+            tetra.rotation.x += 0.01;
+            tetra.rotation.y += 0.01;
 
-            //t1.position.x += 0.1;
+            tetra.position.x += 0.1;
         };
         repeatMe();
     </script>
