@@ -14,23 +14,95 @@
 <body>
     <script type="text/javascript">
         var scene = new THREE.Scene();
-                                               //fov
+        //fov
         var camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
 
         var renderer = new THREE.WebGLRenderer();
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
+        //SHAPES
+
+        //creating the Tetrahedron
         var geometry = new THREE.TetrahedronGeometry(10, 0);
-        var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+        var material = new THREE.MeshLambertMaterial({ color: 0x00ff00, wireframe: false });
         var tetra = new THREE.Mesh(geometry, material);
+        tetra.castShadow = true; //default is false
+        tetra.receiveShadow = false; //default
         scene.add(tetra);
 
-        camera.position.z = 25;
+        //creating the Plane
+        var geometry = new THREE.PlaneGeometry(70, 30);
+        var material = new THREE.MeshLambertMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+        var plane = new THREE.Mesh(geometry, material);
+        plane.receiveShadow = true;
+        scene.add(plane);
 
-        var repeatMe = function(){
+        plane.position.y = -15;
+        plane.rotation.x = 250;
+
+        //creating transparent Box
+        var geometry = new THREE.BoxGeometry(50, 50, 50);
+        var material = new THREE.MeshLambertMaterial({ color: 0x00ffff, transparent: true, opacity: 0.75 });
+        var cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        cube.position.z = -20;
+
+        //END OF SHAPES
+
+        camera.position.z = 30;
+
+        var spotLight = new THREE.SpotLight(0xffffff);
+        spotLight.castShadow = true; // default false
+        spotLight.position.set(1, 0.5, 1);
+        scene.add(spotLight);
+
+        spotLight.position.y = 20;
+        spotLight.position.z = 10;
+        spotLight.intensity = 250; //spotlight was too weak, increases brightness of light 
+
+        //Set up shadow properties for the light
+        spotLight.shadow.mapSize.width = 512; // default
+        spotLight.shadow.mapSize.height = 512; // default
+        spotLight.shadow.camera.near = 0.5; // default
+        spotLight.shadow.camera.far = 500; // default
+        spotLight.shadow.focus = 1; // default
+
+        //var spotLightHelper = new THREE.SpotLightHelper(spotLight);
+        //scene.add(spotLightHelper);
+
+        var xMovement = 0.1;
+        var yMovement = -0.01;//moves tetra down
+
+        var gravity = -0.9;
+
+        var repeatMe = function () {
             renderer.render(scene, camera);
             requestAnimationFrame(repeatMe);
+
+            //Code to rotate tetrahedron
+            tetra.rotation.x += 0.01;
+            tetra.rotation.y += 0.01;
+
+            tetra.position.x += xMovement;
+            tetra.position.y += yMovement;
+
+            //gravity
+            yMovement = gravity + yMovement;
+
+            if (plane.position.y > tetra.position.y) {
+                yMovement = yMovement * gravity;
+            }
+
+            if (tetra.position.x > 25) {
+                xMovement = -1 * xMovement;
+            }
+            else if (tetra.position.x < -25) {
+                xMovement = -1 * xMovement;
+            }
         };
         repeatMe();
     </script>
