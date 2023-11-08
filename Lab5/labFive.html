@@ -29,15 +29,30 @@
         //SHAPES
 
         class Tetrahedron {
-            constructor(radius, detail) {
+            constructor(radius, detail, wire, moveSpeed) {
                 this.radius = radius;
                 this.detail = detail;
+                this.wire = wire;
+                this.moveSpeed = moveSpeed;
+
+                this.geometry = new THREE.TetrahedronGeometry(this.radius, this.detail);
+                this.material = new THREE.MeshLambertMaterial({ color: 0x00ff00, wireframe: this.wire });
+                this.tetra = new THREE.Mesh(this.geometry, this.material);
+            }
+
+            create() {
+                scene.add(this.tetra);
+            }
+
+            move() {
+                this.tetra.position.x += this.moveSpeed;
+                this.tetra.position.y += this.moveSpeed;
+                this.tetra.position.z += this.moveSpeed;
             }
         }
 
-        t1 = new Tetrahedron(10, 0);
-
-        console.log()
+        t1 = new Tetrahedron(10, 0, false, 0.1);
+        t1.create();
 
         //creating the Tetrahedron
         var geometry = new THREE.TetrahedronGeometry(10, 0);
@@ -45,7 +60,7 @@
         var tetra = new THREE.Mesh(geometry, material);
         tetra.castShadow = true; //default is false
         tetra.receiveShadow = false; //default
-        scene.add(tetra);
+        //scene.add(tetra);
 
         var geometryWire = new THREE.TetrahedronGeometry(11, 0);
         var materialWire = new THREE.MeshLambertMaterial({ color: 0xffffff, wireframe: true });
@@ -104,7 +119,7 @@
 
         spotLight2.position.x = -40;
         spotLight2.position.y = 20;
-        spotLight2.position.z = -40;
+        spotLight2.position.z = -50;
         spotLight2.intensity = 500;
 
         spotLight2.shadow.mapSize.width = 512;
@@ -156,6 +171,8 @@
         var repeatMe = function () {
             renderer.render(scene, camera);
             requestAnimationFrame(repeatMe);
+
+            t1.move();
 
             //Code to rotate tetrahedron
             tetra.rotation.x += 0.01;
