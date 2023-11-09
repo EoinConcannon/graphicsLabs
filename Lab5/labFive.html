@@ -29,45 +29,33 @@
         //SHAPES
 
         class Tetrahedron {
-            constructor(radius, detail, wire, moveSpeed) {
+            constructor(radius, detail, wire, moveX, moveY, moveZ) {
                 this.radius = radius;
                 this.detail = detail;
                 this.wire = wire;
-                this.moveSpeed = moveSpeed;
+                this.moveX = moveX;
+                this.moveY = moveY;
+                this.moveZ = moveZ;
 
                 this.geometry = new THREE.TetrahedronGeometry(this.radius, this.detail);
                 this.material = new THREE.MeshLambertMaterial({ color: 0x00ff00, wireframe: this.wire });
                 this.tetra = new THREE.Mesh(this.geometry, this.material);
             }
-
             create() {
+                this.tetra.castShadow = true;
+                this.tetra.receiveShadow = false;
                 scene.add(this.tetra);
             }
-
             move() {
-                this.tetra.position.x += this.moveSpeed;
-                this.tetra.position.y += this.moveSpeed;
-                this.tetra.position.z += this.moveSpeed;
+                this.tetra.position.x += this.moveX;
+                this.tetra.position.y += this.moveY;
+                this.tetra.position.z += this.moveZ;
+            }
+            rotate() {
+                this.tetra.rotation.x += 0.01;
+                this.tetra.rotation.y += 0.01;
             }
         }
-
-        t1 = new Tetrahedron(10, 0, false, 0.1);
-        t1.create();
-
-        //creating the Tetrahedron
-        var geometry = new THREE.TetrahedronGeometry(10, 0);
-        var material = new THREE.MeshLambertMaterial({ color: 0x00ff00, wireframe: false });
-        var tetra = new THREE.Mesh(geometry, material);
-        tetra.castShadow = true; //default is false
-        tetra.receiveShadow = false; //default
-        //scene.add(tetra);
-
-        var geometryWire = new THREE.TetrahedronGeometry(11, 0);
-        var materialWire = new THREE.MeshLambertMaterial({ color: 0xffffff, wireframe: true });
-        var tetraWire = new THREE.Mesh(geometryWire, materialWire);
-        tetraWire.castShadow = true; //default is false
-        tetraWire.receiveShadow = false; //default
-        scene.add(tetraWire);
 
         //creating the Plane
         var geometry = new THREE.PlaneGeometry(70, 70);
@@ -168,52 +156,52 @@
 
         var gravity = -0.9;
 
+        //creating Tetrahedron
+        t1 = new Tetrahedron(10, 0, false, 0.1, 0.1, 0.1);
+        t1Wire = new Tetrahedron(11, 0, true, 0.1, 0.1, 0.1);
+        t1.create();
+        t1Wire.create();
+
         var repeatMe = function () {
             renderer.render(scene, camera);
             requestAnimationFrame(repeatMe);
 
             t1.move();
-
-            //Code to rotate tetrahedron
-            tetra.rotation.x += 0.01;
-            tetra.rotation.y += 0.01;
-
-            tetra.position.x += xMovement;
-            tetra.position.y += yMovement;
-            tetra.position.z += zMovement;
-
-            tetraWire.rotation.x += 0.01;
-            tetraWire.rotation.y += 0.01;
-
-            tetraWire.position.x += xMovement;
-            tetraWire.position.y += yMovement;
-            tetraWire.position.z += zMovement;
+            t1.rotate();
+            t1Wire.move();
+            t1Wire.rotate();
 
             //gravity
             //yMovement = gravity + yMovement;
 
             //if top or bottom of cube is hit
-            if (plane.position.y > tetra.position.y) {
-                yMovement = yMovement * -1;
+            if (plane.position.y > t1.tetra.position.y) {
+                t1.moveY = t1.moveY * -1;
+                t1Wire.moveY = t1Wire.moveY * -1;
             }
-            else if (tetra.position.y > (cube.position.y + 25)) {
-                yMovement = yMovement * -1;
+            else if (t1.tetra.position.y > (cube.position.y + 25)) {
+                t1.moveY = t1.moveY * -1;
+                t1Wire.moveY = t1Wire.moveY * -1;
             }
 
             //if left or right of cube is hit
-            if (tetra.position.x > (cube.position.x + 25)) {
-                xMovement = -1 * xMovement;
+            if (t1.tetra.position.x > (cube.position.x + 25)) {
+                t1.moveX = -1 * t1.moveX;
+                t1Wire.moveX = t1Wire.moveX * -1;
             }
-            else if (tetra.position.x < (cube.position.x - 25)) {
-                xMovement = -1 * xMovement;
+            else if (t1.tetra.position.x < (cube.position.x - 25)) {
+                t1.moveX = -1 * t1.moveX;
+                t1Wire.moveX = t1Wire.moveX * -1;
             }
 
             //if front or back of cube is hit
-            if (tetra.position.z > (cube.position.z + 25)) {
-                zMovement = -1 * zMovement;
+            if (t1.tetra.position.z > (cube.position.z + 25)) {
+                t1.moveZ = -1 * t1.moveZ;
+                t1Wire.moveZ = t1Wire.moveZ * -1;
             }
-            else if (tetra.position.z < (cube.position.z - 25)) {
-                zMovement = -1 * zMovement;
+            else if (t1.tetra.position.z < (cube.position.z - 25)) {
+                t1.moveZ = -1 * t1.moveZ;
+                t1Wire.moveZ = t1Wire.moveZ * -1;
             }
         };
         repeatMe();
