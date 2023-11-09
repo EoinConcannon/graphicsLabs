@@ -27,7 +27,6 @@
         document.body.appendChild(renderer.domElement);
 
         //SHAPES
-
         class Tetrahedron {
             constructor(radius, detail, wire, moveX, moveY, moveZ) {
                 this.radius = radius;
@@ -57,16 +56,25 @@
             }
         }
 
-        //creating the Plane
-        var geometry = new THREE.PlaneGeometry(70, 70);
-        var material = new THREE.MeshLambertMaterial({ color: 0xffff00, side: THREE.DoubleSide });
-        var plane = new THREE.Mesh(geometry, material);
-        plane.receiveShadow = true;
-        scene.add(plane);
+        class Plane {
+            constructor(width, height) {
+                this.width = width;
+                this.height = height;
 
-        plane.position.y = -15;
-        plane.position.z = -15;
-        plane.rotation.x = 275;
+                this.geometry = new THREE.PlaneGeometry(this.width, this.height);
+                this.material = new THREE.MeshLambertMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+                this.plane = new THREE.Mesh(this.geometry, this.material);
+            }
+            create() {
+                this.plane.receiveShadow = true;
+                scene.add(this.plane);
+            }
+            move() {
+                this.plane.position.y = -15;
+                this.plane.position.z = -15;
+                this.plane.rotation.x = 275;
+            }
+        }
 
         //creating transparent Box
         var geometry = new THREE.BoxGeometry(50, 50, 50);
@@ -162,6 +170,11 @@
         t1.create();
         t1Wire.create();
 
+        //creating Plane
+        p1 = new Plane(70, 70);
+        p1.create();
+        p1.move();
+
         var repeatMe = function () {
             renderer.render(scene, camera);
             requestAnimationFrame(repeatMe);
@@ -175,7 +188,7 @@
             //yMovement = gravity + yMovement;
 
             //if top or bottom of cube is hit
-            if (plane.position.y > t1.tetra.position.y) {
+            if (p1.plane.position.y > t1.tetra.position.y) {
                 t1.moveY = t1.moveY * -1;
                 t1Wire.moveY = t1Wire.moveY * -1;
             }
