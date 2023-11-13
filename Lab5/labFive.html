@@ -19,6 +19,10 @@
         var scene = new THREE.Scene();
         //fov
         var camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.x = -40;
+        camera.position.y = 10;
+        camera.position.z = 15;
+        camera.rotation.y = -20;
 
         var renderer = new THREE.WebGLRenderer();
         renderer.shadowMap.enabled = true;
@@ -55,7 +59,6 @@
                 this.tetra.rotation.y += 0.01;
             }
         }
-
         class Plane {
             constructor(width, height) {
                 this.width = width;
@@ -75,94 +78,59 @@
                 this.plane.rotation.x = 275;
             }
         }
-
         //creating transparent Box
-        var geometry = new THREE.BoxGeometry(50, 50, 50);
-        var material = new THREE.MeshLambertMaterial({ color: 0x00ffff, transparent: true, opacity: 0.75 });
-        var cube = new THREE.Mesh(geometry, material);
-        scene.add(cube);
+        class Cube {
+            constructor(width, height, depth) {
+                this.width = width;
+                this.height = height;
+                this.depth = depth;
 
-        cube.position.z = -20;
-
+                this.geometry = new THREE.BoxGeometry(this.width, this.height, this.depth);
+                this.material = new THREE.MeshLambertMaterial({ color: 0x00ffff, transparent: true, opacity: 0.75 });
+                this.cube = new THREE.Mesh(this.geometry, this.material);
+            }
+            create() {
+                scene.add(this.cube);
+            }
+            move() {
+                this.cube.position.z = -20;
+            }
+        }
         //END OF SHAPES
 
-        //changing camera view
-        camera.position.x = -40;
-        camera.position.y = 10;
-        camera.position.z = 15;
-        camera.rotation.y = -20;
+        class SpotLightObj {
+            constructor(posX, posY, posZ, brightness) {
+                this.posX = posX;
+                this.posY = posY;
+                this.posZ = posZ;
+                this.brightness = brightness;
 
-        var spotLight = new THREE.SpotLight(0xffffff);
-        spotLight.castShadow = true; // default false
-        spotLight.position.set(1, 0.5, 1);
-        scene.add(spotLight);
+                this.spotLight = new THREE.SpotLight(0xffffff);
+            }
+            create() {
+                this.spotLight.castShadow = true;
+                this.spotLight.intensity = this.brightness;
 
-        spotLight.position.y = 30;
-        spotLight.position.z = 20;
-        spotLight.intensity = 500; //spotlight was too weak, increases brightness of light 
+                //Set up shadow properties for the light
+                this.spotLight.shadow.mapSize.width = 512;
+                this.spotLight.shadow.mapSize.height = 512;
+                this.spotLight.shadow.camera.near = 0.5;
+                this.spotLight.shadow.camera.far = 500;
+                this.spotLight.shadow.focus = 1;
 
-        //Set up shadow properties for the light
-        spotLight.shadow.mapSize.width = 512; // default
-        spotLight.shadow.mapSize.height = 512; // default
-        spotLight.shadow.camera.near = 0.5; // default
-        spotLight.shadow.camera.far = 500; // default
-        spotLight.shadow.focus = 1; // default
+                scene.add(this.spotLight);
+            }
+            move() {
+                this.spotLight.position.set(1, 0.5, 1);
 
-        var spotLight2 = new THREE.SpotLight(0xffffff);
-        spotLight2.castShadow = true;
-        spotLight2.position.set(1, 0.5, 1);
-        scene.add(spotLight2);
-
-        spotLight2.position.x = -40;
-        spotLight2.position.y = 20;
-        spotLight2.position.z = -50;
-        spotLight2.intensity = 500;
-
-        spotLight2.shadow.mapSize.width = 512;
-        spotLight2.shadow.mapSize.height = 512;
-        spotLight2.shadow.camera.near = 0.5;
-        spotLight2.shadow.camera.far = 500;
-        spotLight2.shadow.focus = 1;
-
-        var spotLight3 = new THREE.SpotLight(0xffffff);
-        spotLight3.castShadow = true;
-        spotLight3.position.set(1, 0.5, 1);
-        scene.add(spotLight3);
-
-        spotLight3.position.x = -30;
-        spotLight3.position.y = 10;
-        spotLight3.position.z = 30;
-        spotLight3.intensity = 500;
-
-        spotLight3.shadow.mapSize.width = 512;
-        spotLight3.shadow.mapSize.height = 512;
-        spotLight3.shadow.camera.near = 0.5;
-        spotLight3.shadow.camera.far = 500;
-        spotLight3.shadow.focus = 1;
-
-        var spotLight4 = new THREE.SpotLight(0xffffff);
-        spotLight4.castShadow = true;
-        spotLight4.position.set(1, 0.5, 1);
-        scene.add(spotLight4);
-
-        spotLight4.position.x = 10;
-        spotLight4.position.y = 60;
-        spotLight4.intensity = 750;
-
-        spotLight4.shadow.mapSize.width = 512;
-        spotLight4.shadow.mapSize.height = 512;
-        spotLight4.shadow.camera.near = 0.5;
-        spotLight4.shadow.camera.far = 500;
-        spotLight4.shadow.focus = 1;
+                this.spotLight.position.x = this.posX;
+                this.spotLight.position.y = this.posY;
+                this.spotLight.position.z = this.posZ;
+            }
+        }
 
         //var spotLightHelper = new THREE.SpotLightHelper(spotLight);
         //scene.add(spotLightHelper);
-
-        var xMovement = 0.2;
-        var yMovement = -0.2;//moves tetra down
-        var zMovement = 0.2;
-
-        var gravity = -0.9;
 
         //creating Tetrahedron
         t1 = new Tetrahedron(10, 0, false, 0.1, 0.1, 0.1);
@@ -174,6 +142,31 @@
         p1 = new Plane(70, 70);
         p1.create();
         p1.move();
+
+        //creating Cube
+        c1 = new Cube(50, 50, 50);
+        c1.create();
+        c1.move();
+
+
+        //creating SpotLights
+        s1 = new SpotLightObj(0, 30, 20, 500);
+        s1.create();
+        s1.move();
+
+        s2 = new SpotLightObj(-40, 20, -50, 500);
+        s2.create();
+        s2.move();
+
+        s3 = new SpotLightObj(-30, 10, 30, 500);
+        s3.create();
+        s3.move();
+
+        s4 = new SpotLightObj(10, 60, 0, 750);
+        s4.create();
+        s4.move();
+
+        var gravity = -0.9;
 
         var repeatMe = function () {
             renderer.render(scene, camera);
@@ -192,27 +185,27 @@
                 t1.moveY = t1.moveY * -1;
                 t1Wire.moveY = t1Wire.moveY * -1;
             }
-            else if (t1.tetra.position.y > (cube.position.y + 25)) {
+            else if (t1.tetra.position.y > (c1.cube.position.y + 25)) {
                 t1.moveY = t1.moveY * -1;
                 t1Wire.moveY = t1Wire.moveY * -1;
             }
 
             //if left or right of cube is hit
-            if (t1.tetra.position.x > (cube.position.x + 25)) {
+            if (t1.tetra.position.x > (c1.cube.position.x + 25)) {
                 t1.moveX = -1 * t1.moveX;
                 t1Wire.moveX = t1Wire.moveX * -1;
             }
-            else if (t1.tetra.position.x < (cube.position.x - 25)) {
+            else if (t1.tetra.position.x < (c1.cube.position.x - 25)) {
                 t1.moveX = -1 * t1.moveX;
                 t1Wire.moveX = t1Wire.moveX * -1;
             }
 
             //if front or back of cube is hit
-            if (t1.tetra.position.z > (cube.position.z + 25)) {
+            if (t1.tetra.position.z > (c1.cube.position.z + 25)) {
                 t1.moveZ = -1 * t1.moveZ;
                 t1Wire.moveZ = t1Wire.moveZ * -1;
             }
-            else if (t1.tetra.position.z < (cube.position.z - 25)) {
+            else if (t1.tetra.position.z < (c1.cube.position.z - 25)) {
                 t1.moveZ = -1 * t1.moveZ;
                 t1Wire.moveZ = t1Wire.moveZ * -1;
             }
