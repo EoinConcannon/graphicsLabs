@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 
@@ -36,4 +37,41 @@
     </script>
 </body>
 
+=======
+<!DOCTYPE html>
+<html>
+
+<!-- import -->
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+<head>
+    <title>D3.js Demo</title>
+    <meta charset="UTF-8">
+    <style type="text/css"></style>
+</head>
+
+<body>
+    <script type="text/javascript">
+
+        //Retrieve the JSON data
+        $.getJSON("https://pkgstore.datahub.io/core/co2-ppm/co2-mm-mlo_json/data/aed7eb0d19cbcd90790525d40728b0a8/co2-mm-mlo_json.json", function (data) {
+            console.log(data);
+            plotCO2Data(data);
+        });
+
+        //Executed once the file has downloaded
+        function plotCO2Data(data) {
+            //Set up SVG size and margins
+            var margin = { top: 50, right: 50, bottom: 50, left: 50 },
+                width = 900 - margin.left - margin.right,
+                height = 670 - margin.top - margin.bottom;
+
+            //Create x and y scales for Interpolated value (x-axis) and (y-axis)
+        }
+
+    </script>
+</body>
+
+>>>>>>> 835e34382cc3795f75f9c9a5a3db8435e9c20a63
 </html>
