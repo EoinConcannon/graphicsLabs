@@ -28,9 +28,21 @@
                 height = 670 - margin.top - margin.bottom;
 
             //Create x and y scales for Interpolated value (x-axis) and (y-axis)
-            
+            var y = d3.scaleLinear()
+                    .domain(d3.extent(data, function (d) { return d["Interpolated"] }))
+                    .range([height, 0]);
 
-            //https://d3js.org/d3-scale/time
+            var parseDate = d3.timeParse("%y %m %d");
+
+            var x = d3.scaleTime()
+                    .domain(d3.extent(data, function (d) { return parseDate(d["Date"]); }))
+                    .range([0, width]);
+            
+            var xAxis = d3.axisBottom(x)
+                        .ticks(3);
+            
+            var yAxis = d3.axisLeft(y)
+                        .ticks(3);
         }
 
     </script>
