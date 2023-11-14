@@ -65,6 +65,8 @@
                 .call(yAxis);
 
             svg.append("path")
+                .attr("stroke", "red")
+                .attr("fill", "none")
                 .attr("d", valueLine(data));
         }
 
