@@ -11,6 +11,8 @@
     <style type="text/css"></style>
 </head>
 
+<h1>Eoin Concannon</h1>
+
 <body>
     <script type="text/javascript">
 
@@ -29,20 +31,20 @@
 
             //Create x and y scales for Interpolated value (x-axis) and (y-axis)
             var y = d3.scaleLinear()
-                    .domain(d3.extent(data, function (d) { return d["Interpolated"] }))
-                    .range([height, 0]);
+                .domain(d3.extent(data, function (d) { return d["Interpolated"] }))
+                .range([height, 0]);
 
             var parseDate = d3.timeParse("%Y-%m-%d");
 
             var x = d3.scaleTime()
-                    .domain(d3.extent(data, function (d) { return parseDate(d["Date"]); }))
-                    .range([0, width]);
-            
+                .domain(d3.extent(data, function (d) { return parseDate(d["Date"]); }))
+                .range([0, width]);
+
             var xAxis = d3.axisBottom(x)
-                        .ticks(3);
-            
+                .ticks(3);
+
             var yAxis = d3.axisLeft(y)
-                        .ticks(3);
+                .ticks(3);
 
             var valueLine = d3.line()
                 .x(function (d) { return x(parseDate(d["Date"])); })
@@ -50,11 +52,11 @@
 
             var svg = d3.select('body')
                 .append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
 
                 .append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
             svg.append('g')
                 .attr('class', 'x axis')
