@@ -70,6 +70,23 @@
                 .attr("stroke", "red")
                 .attr("fill", "none")
                 .attr("d", valueLine(data));
+
+            svg.append("text")
+                .attr("class", "x label")
+                .attr("text-anchor", "end")
+                .attr("x", width / 2)
+                .attr("y", height)
+                .attr("font-size", "30px")
+                .text("Time (Years)");
+
+            svg.append("text")
+                .attr("class", "y label")
+                .attr("text-anchor", "end")
+                .attr("x", -100)
+                .attr("transform", "rotate(-90)")
+                .attr("font-size", "30px")
+                .text("Atmospheric CO2");
+
         }
 
     </script>
