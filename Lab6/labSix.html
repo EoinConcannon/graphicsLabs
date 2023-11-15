@@ -69,7 +69,19 @@
             svg.append("path")
                 .attr("stroke", "red")
                 .attr("fill", "none")
+                .attr("d", valueLine(data));//d = draw
+
+            //TREND DATA
+            y = d3.scaleLinear()
+                .domain(d3.extent(data, function (d) { return d["Trend"] }))
+                .range([height, 0]);
+
+            svg.append("path")
+                .attr("stroke", "blue")
+                .attr("fill", "none")
                 .attr("d", valueLine(data));
+
+            //---------------------------------------------------------------------------------------------------------------------------------
 
             svg.append("text")
                 .attr("class", "x label")
