@@ -84,7 +84,7 @@
             svg.append("path")
                 .attr("stroke", "blue")
                 .attr("fill", "none")
-                .attr("d", valueLine(data));
+                .attr("d", valueLine(data))
             //end of trend data
 
             //---------------------------------------------------------------------------------------------------------------------------------
@@ -96,6 +96,7 @@
                 .attr("y", height)
                 .attr("font-size", "30px")
                 .text("Time (Years)");
+            // .call(zoom);
 
             //CO2 text
             svg.append("text")
@@ -106,6 +107,7 @@
                 .attr("font-size", "30px")
                 .attr("fill", "red")
                 .text("Atmospheric CO2");
+            // .call(zoom);
 
             //Trend text
             svg.append("text")
@@ -116,6 +118,31 @@
                 .attr("font-size", "30px")
                 .attr("fill", "blue")
                 .text("Trend");
+            // .call(zoom);
+
+
+            // https://d3js.org/d3-zoom
+            // selection
+            //     .call(zoom)
+            //     .on("wheel.zoom", null); //not working
+
+            // https://d3-graph-gallery.com/graph/interactivity_zoom.html
+            // Set the zoom and Pan features: how much you can zoom, on which part, and what to do when there is a zoom
+            var zoom = d3.zoom()
+                .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
+                .extent([[0, 0], [width, height]])
+                .on("zoom", updateChart);
+
+            function updateChart() {
+
+                // recover the new scale
+                var newX = d3.event.transform.rescaleX(x);
+                var newY = d3.event.transform.rescaleY(y);
+
+                // update axes with these new boundaries
+                xAxis.call(d3.axisBottom(newX))
+                yAxis.call(d3.axisLeft(newY))
+            }
         }
 
     </script>
