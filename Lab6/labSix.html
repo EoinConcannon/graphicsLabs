@@ -95,7 +95,9 @@
                 .attr("x", width / 2)
                 .attr("y", height)
                 .attr("font-size", "30px")
-                .text("Time (Years)");
+                .text("Time (Years)")
+                // .zoomed(zoom)
+                // .brushed(brush);
             // .call(zoom);
 
             //CO2 text
@@ -106,7 +108,9 @@
                 .attr("transform", "rotate(-90)")
                 .attr("font-size", "30px")
                 .attr("fill", "red")
-                .text("Atmospheric CO2");
+                .text("Atmospheric CO2")
+                // .zoomed(zoom)
+                // .brushed(brush);
             // .call(zoom);
 
             //Trend text
@@ -128,20 +132,41 @@
 
             // https://d3-graph-gallery.com/graph/interactivity_zoom.html
             // Set the zoom and Pan features: how much you can zoom, on which part, and what to do when there is a zoom
-            var zoom = d3.zoom()
-                .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
-                .extent([[0, 0], [width, height]])
-                .on("zoom", updateChart);
+            // var zoom = d3.zoom()
+            //     .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
+            //     .extent([[0, 0], [width, height]])
+            //     .on("zoom", updateChart);
 
-            function updateChart() {
+            // function updateChart() {
 
-                // recover the new scale
-                var newX = d3.event.transform.rescaleX(x);
-                var newY = d3.event.transform.rescaleY(y);
+            //     // recover the new scale
+            //     var newX = d3.event.transform.rescaleX(x);
+            //     var newY = d3.event.transform.rescaleY(y);
 
-                // update axes with these new boundaries
-                xAxis.call(d3.axisBottom(newX))
-                yAxis.call(d3.axisLeft(newY))
+            //     // update axes with these new boundaries
+            //     xAxis.call(d3.axisBottom(newX))
+            //     yAxis.call(d3.axisLeft(newY))
+            // }
+
+            // https://gist.github.com/EfratVil/92f894ac0ba265192411e73f633a3e2f
+            function brushed() {
+                if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
+                var s = d3.event.selection || x2.range();
+                x.domain(s.map(x2.invert, x2));
+                Line_chart.select(".line").attr("d", line);
+                focus.select(".axis--x").call(xAxis);
+                svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
+                    .scale(width / (s[1] - s[0]))
+                    .translate(-s[0], 0));
+            }
+
+            function zoomed() {
+                if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
+                var t = d3.event.transform;
+                x.domain(t.rescaleX(x2).domain());
+                Line_chart.select(".line").attr("d", line);
+                focus.select(".axis--x").call(xAxis);
+                context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
             }
         }
 
