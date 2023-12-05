@@ -3,7 +3,10 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-img = cv2.imread('ATU.jpg')
+# ATU.jpg
+# rome.jpg
+# tokyo.jpg
+img = cv2.imread('tokyo.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # prevent colour issues
 
 nrows = 2
@@ -47,7 +50,7 @@ plt.subplot(nrows, ncols,5),plt.imshow(sobelCombined, cmap = 'gray')
 plt.title('Sobel Sum'), plt.xticks([]), plt.yticks([])
 
 # canny img
-cannyThreshold = 100
+cannyThreshold = 80
 cannyParam2 = 200
 
 canny = cv2.Canny(greyImg,cannyThreshold,cannyParam2)
