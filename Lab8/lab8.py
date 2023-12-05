@@ -29,7 +29,7 @@ imgBlur = cv2.GaussianBlur(greyImg,(KernelSizeWidth, KernelSizeHeight),0)
 sobelVertical = cv2.Sobel(imgBlur,cv2.CV_64F,0,1,ksize=5) # y dir
 verticalImg = cv2.convertScaleAbs(sobelVertical)
 # end result img
-plt.subplot(nrows, ncols,3),plt.imshow(verticalImg, cmap = 'gray')
+plt.subplot(nrows, ncols,3),plt.imshow(sobelVertical, cmap = 'gray')
 plt.title('Sobel X'), plt.xticks([]), plt.yticks([])
 
 # 13x13 blur set
@@ -40,11 +40,11 @@ imgBlurStrong = cv2.GaussianBlur(greyImg,(KernelSizeWidth, KernelSizeHeight),0)
 sobelHorizontal = cv2.Sobel(imgBlurStrong,cv2.CV_64F,1,0,ksize=5) # x dir
 horizontalImg = cv2.convertScaleAbs(sobelHorizontal)
 # end result img
-plt.subplot(nrows, ncols,4),plt.imshow(horizontalImg, cmap = 'gray')
+plt.subplot(nrows, ncols,4),plt.imshow(sobelHorizontal, cmap = 'gray')
 plt.title('Sobel Y'), plt.xticks([]), plt.yticks([])
 
 # combines previous x/y sobel imgs
-sobelCombined = cv2.addWeighted(verticalImg, 0.5, horizontalImg, 0.5, 0)
+sobelCombined = cv2.addWeighted(sobelVertical, 0.5, sobelHorizontal, 0.5, 0)
 
 plt.subplot(nrows, ncols,5),plt.imshow(sobelCombined, cmap = 'gray')
 plt.title('Sobel Sum'), plt.xticks([]), plt.yticks([])
@@ -53,7 +53,7 @@ plt.title('Sobel Sum'), plt.xticks([]), plt.yticks([])
 cannyThreshold = 80
 cannyParam2 = 200
 
-canny = cv2.Canny(greyImg,cannyThreshold,cannyParam2)
+canny = cv2.Canny(imgBlur,cannyThreshold,cannyParam2)
 
 plt.subplot(nrows, ncols,6),plt.imshow(canny, cmap = 'gray')
 plt.title('Canny Edge Image'), plt.xticks([]), plt.yticks([])
