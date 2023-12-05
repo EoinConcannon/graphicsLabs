@@ -43,7 +43,15 @@ plt.title('Sobel Y'), plt.xticks([]), plt.yticks([])
 # combines previous x/y sobel imgs
 sobelCombined = cv2.addWeighted(verticalImg, 0.5, horizontalImg, 0.5, 0)
 
-# both sobel x/y imgs combined
 plt.subplot(nrows, ncols,5),plt.imshow(sobelCombined, cmap = 'gray')
 plt.title('Sobel Sum'), plt.xticks([]), plt.yticks([])
+
+# canny img
+cannyThreshold = 100
+cannyParam2 = 200
+
+canny = cv2.Canny(greyImg,cannyThreshold,cannyParam2)
+
+plt.subplot(nrows, ncols,6),plt.imshow(canny, cmap = 'gray')
+plt.title('Canny Edge Image'), plt.xticks([]), plt.yticks([])
 plt.show()
