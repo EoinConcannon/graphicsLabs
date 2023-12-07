@@ -5,7 +5,6 @@ from matplotlib import pyplot as plt
 
 img = cv2.imread('ATU1.jpg')
 # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # prevent colour issues
-
 greyImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # converts to greyscale
 
 # Harris corner detection
@@ -24,5 +23,19 @@ for i in range(len(dst)):
         if dst[i][j] > (threshold*dst.max()):
             cv2.circle(imgHarris,(j,i),3,(256, 0, 256),-1)
 
-cv2.imshow('image', imgHarris)
+# Shi Tomasi algorithm (GFTT "Good Features To Track")
+maxCorners = 250 # use different numbers
+qualityLevel = 0.01
+minDistance = 10
+
+corners = cv2.goodFeaturesToTrack(greyImg,maxCorners,qualityLevel,minDistance)
+
+imgShiTomasi = img.copy() # deep copy
+
+for i in corners:
+    x,y = i.ravel()
+    cv2.circle(imgShiTomasi,(x,y),3,(256, 0, 256),-1)
+
+
+cv2.imshow('image', imgShiTomasi)
 cv2.waitKey()
