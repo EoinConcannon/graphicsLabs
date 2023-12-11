@@ -7,6 +7,9 @@ img = cv2.imread('ATU1.jpg')
 # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # prevent colour issues
 greyImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # converts to greyscale
 
+nrows = 2
+ncols = 2
+
 # Harris corner detection
 blockSize = 2
 aperture_size = 3
@@ -36,6 +39,26 @@ for i in corners:
     x,y = i.ravel()
     cv2.circle(imgShiTomasi,(x,y),3,(256, 0, 256),-1)
 
+# cv2.imshow('image', imgShiTomasi)
+# cv2.waitKey()
 
-cv2.imshow('image', imgShiTomasi)
-cv2.waitKey()
+# https://docs.opencv.org/4.x/d1/d89/tutorial_py_orb.html
+# Initiate ORB detector
+orb = cv2.ORB_create()
+# find the keypoints with ORB
+kp = orb.detect(img,None)
+# compute the descriptors with ORB
+kp, des = orb.compute(img, kp)
+# draw only keypoints location,not size and orientation
+img2 = cv2.drawKeypoints(img, kp, None, color=(0,255,0), flags=0)
+
+plt.imshow(img2), plt.show()
+
+# plt.subplot(nrows, ncols,1),plt.imshow(img, cmap = 'gray')
+# plt.title('Original'), plt.xticks([]), plt.yticks([])
+# plt.subplot(nrows, ncols,2),plt.imshow(imgHarris, cmap = 'gray')
+# plt.title('Harris'), plt.xticks([]), plt.yticks([])
+# plt.subplot(nrows, ncols,3),plt.imshow(greyImg, cmap = 'gray')
+# plt.title('Shi Tomasi algorithm'), plt.xticks([]), plt.yticks([])
+# plt.subplot(nrows, ncols,4),plt.imshow(greyImg, cmap = 'gray')
+# plt.title('GrayScale'), plt.xticks([]), plt.yticks([])
