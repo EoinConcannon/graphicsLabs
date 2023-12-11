@@ -7,11 +7,13 @@ from matplotlib import pyplot as plt
 # ATU2.jpg
 # rome.jpg
 # tokyo.jpg
-img = cv2.imread('ATU2.jpg')
+img = cv2.imread('ATU1.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # prevent colour issues
+img2 = cv2.imread('ATU2.jpg')
+img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
 greyImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # converts to greyscale
 
-nrows = 2
+nrows = 3
 ncols = 2
 
 # Harris corner detection
@@ -61,5 +63,22 @@ plt.subplot(nrows, ncols,3),plt.imshow(imgShiTomasi, cmap = 'gray')
 plt.title('GFTT'), plt.xticks([]), plt.yticks([])
 plt.subplot(nrows, ncols,4),plt.imshow(imgORB, cmap = 'gray')
 plt.title('ORB'), plt.xticks([]), plt.yticks([])
+
+# https://docs.opencv.org/4.x/dc/dc3/tutorial_py_matcher.html
+# find the keypoints and descriptors with ORB
+kp1, des1 = orb.detectAndCompute(img,None)
+kp2, des2 = orb.detectAndCompute(img2,None)
+
+# create BFMatcher object
+bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+# Match descriptors.
+matches = bf.match(des1,des2)
+# Sort them in the order of their distance.
+matches = sorted(matches, key = lambda x:x.distance)
+# Draw first 10 matches.
+imgBruteForce = cv2.drawMatches(img,kp1,img2,kp2,matches[:10],None,flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+
+plt.subplot(nrows, ncols,5),plt.imshow(imgBruteForce, cmap = 'gray') # adding BruteForceMatcher image to image plot
+plt.title('BruteForceMatcher'), plt.xticks([]), plt.yticks([])
 
 plt.show() # display images
