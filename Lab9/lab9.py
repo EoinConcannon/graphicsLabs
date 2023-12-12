@@ -7,9 +7,11 @@ from matplotlib import pyplot as plt
 # ATU2.jpg
 # rome.jpg
 # tokyo.jpg
-img = cv2.imread('ATU1.jpg')
+# EiffelTowerLowRes1.jpg
+# EiffelTowerLowRes2.jpg
+img = cv2.imread('EiffelTowerLowRes1.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # prevent colour issues
-img2 = cv2.imread('ATU2.jpg')
+img2 = cv2.imread('EiffelTowerLowRes2.jpg')
 img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
 greyImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # converts to greyscale
 
@@ -82,6 +84,7 @@ imgBruteForce = cv2.drawMatches(img,kp1,img2,kp2,matches[:10],None,flags=cv2.Dra
 plt.subplot(nrows, ncols,5),plt.imshow(imgBruteForce, cmap = 'gray') # adding BruteForceMatcher image to image plot
 plt.title('BruteForceMatcher'), plt.xticks([]), plt.yticks([])
 
+"""
 # FLANN
 # Initiate SIFT detector
 sift = cv2.SIFT_create()
@@ -115,5 +118,6 @@ imgFLANN = cv2.drawMatchesKnn(img1,kp1,img2,kp2,matches,None,**draw_params)
 
 plt.subplot(nrows, ncols,6),plt.imshow(imgFLANN, cmap = 'gray')
 plt.title('FLANN'), plt.xticks([]), plt.yticks([])
+"""
 
 plt.show() # display images
