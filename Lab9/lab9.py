@@ -65,6 +65,7 @@ plt.subplot(nrows, ncols,4),plt.imshow(imgORB, cmap = 'gray')
 plt.title('ORB'), plt.xticks([]), plt.yticks([])
 
 # https://docs.opencv.org/4.x/dc/dc3/tutorial_py_matcher.html
+
 # find the keypoints and descriptors with ORB
 kp1, des1 = orb.detectAndCompute(img,None)
 kp2, des2 = orb.detectAndCompute(img2,None)
@@ -80,5 +81,39 @@ imgBruteForce = cv2.drawMatches(img,kp1,img2,kp2,matches[:10],None,flags=cv2.Dra
 
 plt.subplot(nrows, ncols,5),plt.imshow(imgBruteForce, cmap = 'gray') # adding BruteForceMatcher image to image plot
 plt.title('BruteForceMatcher'), plt.xticks([]), plt.yticks([])
+
+# FLANN
+# Initiate SIFT detector
+sift = cv2.SIFT_create()
+# find the keypoints and descriptors with SIFT
+kp1, des1 = sift.detectAndCompute(img,None)
+kp2, des2 = sift.detectAndCompute(img2,None)
+
+# FLANN parameters
+FLANN_INDEX_KDTREE = 1
+index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5)
+search_params = dict(checks=50)   # or pass empty dictionary
+
+flann = cv2.FlannBasedMatcher(index_params,search_params)
+
+matches = flann.knnMatch(des1,des2,k=2)
+
+# Need to draw only good matches, so create a mask
+matchesMask = [[0,0] for i in range(len(matches))]
+
+# ratio test as per Lowe's paper
+for i,(m,n) in enumerate(matches):
+    if m.distance < 0.7*n.distance:
+        matchesMask[i]=[1,0]
+
+draw_params = dict(matchColor = (0,255,0),
+                   singlePointColor = (255,0,0),
+                   matchesMask = matchesMask,
+                   flags = cv2.DrawMatchesFlags_DEFAULT)
+
+imgFLANN = cv2.drawMatchesKnn(img1,kp1,img2,kp2,matches,None,**draw_params)
+
+plt.subplot(nrows, ncols,6),plt.imshow(imgFLANN, cmap = 'gray')
+plt.title('FLANN'), plt.xticks([]), plt.yticks([])
 
 plt.show() # display images
