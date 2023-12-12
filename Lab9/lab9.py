@@ -9,14 +9,14 @@ from matplotlib import pyplot as plt
 # tokyo.jpg
 # EiffelTowerLowRes1.jpg
 # EiffelTowerLowRes2.jpg
-img = cv2.imread('EiffelTowerLowRes1.jpg')
+img = cv2.imread('ATU1.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # prevent colour issues
-img2 = cv2.imread('EiffelTowerLowRes2.jpg')
+img2 = cv2.imread('ATU2.jpg')
 img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
 greyImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # converts to greyscale
 
 nrows = 3
-ncols = 2
+ncols = 3
 
 # Harris corner detection
 blockSize = 2
@@ -119,5 +119,9 @@ imgFLANN = cv2.drawMatchesKnn(img1,kp1,img2,kp2,matches,None,**draw_params)
 plt.subplot(nrows, ncols,6),plt.imshow(imgFLANN, cmap = 'gray')
 plt.title('FLANN'), plt.xticks([]), plt.yticks([])
 """
+
+# imgColour = im2double(imread('ATU1.jpg'))
+# plt.subplot(nrows, ncols,7),plt.imshow(imgColour, cmap = 'gray')
+# plt.title('Colour image'), plt.xticks([]), plt.yticks([])
 
 plt.show() # display images
